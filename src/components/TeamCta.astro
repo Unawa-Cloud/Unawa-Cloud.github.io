@@ -1,0 +1,61 @@
+---
+import Icon from './Icon.astro';
+import { teams } from '../data/content';
+---
+
+<section class="teams section" id="teams">
+  <div class="container">
+    <div class="teams__card">
+      <span class="teams__icon"><Icon name="shield" size={20} /></span>
+      <p class="eyebrow teams__eyebrow">{teams.eyebrow}</p>
+      <h2 class="teams__title">See what your team can do<br />with UNAWA</h2>
+      <p class="teams__body">{teams.body}</p>
+      <a class="btn btn--dark teams__cta" href={teams.cta.href}>{teams.cta.label}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .teams { background: var(--malumanay); }
+
+  .teams__card {
+    max-width: 680px;
+    margin-inline: auto;
+    padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.5rem);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, var(--white) 0%, #f4f7fe 100%);
+    box-shadow: 0 34px 70px -40px rgba(17, 17, 67, 0.5);
+    text-align: center;
+  }
+
+  .teams__icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    margin-inline: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    color: var(--blue);
+  }
+
+  .teams__eyebrow { margin-top: 1.25rem; }
+
+  .teams__title {
+    font-size: clamp(1.625rem, 1.1rem + 2.3vw, 2.25rem);
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .teams__body {
+    max-width: 44ch;
+    margin: 1rem auto 0;
+    font-size: var(--t-small);
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .teams__cta { margin-top: 1.75rem; }
+</style>

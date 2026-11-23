@@ -1,0 +1,66 @@
+---
+import Icon from './Icon.astro';
+import { approach } from '../data/content';
+---
+
+<section class="approach section" id="approach">
+  <div class="container">
+    <p class="eyebrow">{approach.eyebrow}</p>
+    <h2 class="display-2 approach__title">Technology that<br />makes sense</h2>
+    <p class="lede approach__body">{approach.body}</p>
+
+    <ul class="approach__grid">
+      {approach.items.map((item) => (
+        <li class="approach__cell">
+          <Icon name={item.icon} size={18} class="approach__icon" />
+          <div>
+            <h3 class="card-title">{item.title}</h3>
+            <p class="card-copy">{item.body}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .approach { background: var(--white); }
+
+  .approach__title { max-width: 18ch; }
+  .approach__body { max-width: 56ch; margin-top: 1.25rem; }
+
+  .approach__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: clamp(2.25rem, 4vw, 3.25rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, var(--paper) 0%, var(--white) 100%);
+  }
+
+  .approach__cell {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .approach__cell:nth-child(2n) { border-right: 0; }
+  .approach__cell:nth-last-child(-n + 2) { border-bottom: 0; }
+
+  .approach__icon {
+    flex: none;
+    margin-top: 2px;
+    color: var(--blue);
+  }
+
+  @media (max-width: 899px) {
+    .approach__grid { grid-template-columns: minmax(0, 1fr); }
+    .approach__cell { border-right: 0; }
+    .approach__cell:last-child { border-bottom: 0; }
+    .approach__cell:nth-last-child(2) { border-bottom: 1px solid var(--line); }
+  }
+</style>

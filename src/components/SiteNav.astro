@@ -1,0 +1,210 @@
+---
+import BrandMark from './BrandMark.astro';
+import { nav } from '../data/content';
+---
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href="#top" aria-label="UNAWA home">
+      <BrandMark size={26} class="nav__mark" />
+      <span class="nav__wordmark">UNAWA<sup>&reg;</sup></span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <ul>
+        {nav.links.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="btn btn--outline" href={nav.secondaryCta.href}>{nav.secondaryCta.label}</a>
+      <a class="btn btn--dark" href={nav.primaryCta.href}>{nav.primaryCta.label}</a>
+    </div>
+
+    <button
+      class="nav__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="nav-drawer"
+    >
+      <span class="nav__toggle-label">Menu</span>
+      <span class="nav__burger" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+  </div>
+
+  <div class="nav__drawer" id="nav-drawer" hidden>
+    <div class="container">
+      <ul>
+        {nav.links.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+      <div class="nav__drawer-actions">
+        <a class="btn btn--outline" href={nav.secondaryCta.href}>{nav.secondaryCta.label}</a>
+        <a class="btn btn--dark" href={nav.primaryCta.href}>{nav.primaryCta.label}</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: var(--nav-h);
+  }
+
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: auto;
+  }
+
+  .nav__mark { color: var(--tangerine); }
+
+  .nav__wordmark {
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+  }
+
+  .nav__wordmark sup {
+    font-size: 0.5em;
+    top: -0.8em;
+    font-weight: 500;
+  }
+
+  .nav__links ul {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.25rem, 3vw, 2.75rem);
+  }
+
+  .nav__links a {
+    font-size: var(--t-small);
+    font-weight: 500;
+    color: var(--ink-2);
+    transition: color 0.15s ease;
+  }
+
+  .nav__links a:hover { color: var(--blue); }
+
+  .nav__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+  }
+
+  .nav__actions .btn {
+    min-height: 38px;
+    padding-inline: 1rem;
+    font-size: var(--t-small);
+  }
+
+  /* ── Mobile ─────────────────────────────────────────────── */
+  .nav__toggle {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    font-size: var(--t-small);
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .nav__burger {
+    display: grid;
+    gap: 3px;
+  }
+
+  .nav__burger i {
+    display: block;
+    width: 16px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+  }
+
+  .nav__drawer {
+    border-top: 1px solid var(--line);
+    background: var(--white);
+    padding-block: 1rem 1.5rem;
+  }
+
+  .nav__drawer[hidden] { display: none; }
+
+  .nav__drawer ul {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .nav__drawer a:not(.btn) {
+    display: block;
+    padding: 0.75rem 0;
+    font-weight: 500;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav__drawer-actions {
+    display: grid;
+    gap: 0.625rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (max-width: 1023px) {
+    .nav__links,
+    .nav__actions { display: none; }
+    .nav__toggle { display: inline-flex; }
+  }
+
+  @media (min-width: 1024px) {
+    .nav__drawer { display: none; }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.nav__toggle');
+  const drawer = document.querySelector<HTMLElement>('#nav-drawer');
+
+  if (toggle && drawer) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      drawer.hidden = !open;
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    drawer.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    desktop.addEventListener('change', (event) => {
+      if (event.matches) setOpen(false);
+    });
+  }
+</script>

@@ -1,0 +1,274 @@
+---
+import Icon from './Icon.astro';
+import { products } from '../data/content';
+---
+
+<section class="products ground-dark section" id="products">
+  <div class="container">
+    <div class="products__lead">
+      <div class="products__copy">
+        <p class="eyebrow eyebrow--on-dark">{products.eyebrow}</p>
+        <p class="products__brand">
+          <Icon name="spark" size={22} class="products__brandmark" />
+          {products.brand}
+        </p>
+        <h2 class="display-2">{products.title}</h2>
+        <p class="lede lede--on-dark products__body">{products.body}</p>
+        <a class="btn btn--light products__cta" href={products.cta.href}>
+          {products.cta.label}
+        </a>
+      </div>
+
+      <!-- Verified-document mock; rebuilt in markup, no exported asset needed -->
+      <div class="docmock" aria-hidden="true">
+        <div class="docmock__head">
+          <Icon name="spark" size={16} class="docmock__mark" />
+          <span class="docmock__ref">{products.doc.reference}</span>
+        </div>
+
+        <div class="docmock__check">
+          <span class="docmock__avatar"></span>
+          <span class="docmock__checkcopy">{products.doc.checkLabel}</span>
+          <span class="docmock__verified">
+            <Icon name="check" size={11} />{products.doc.verifiedLabel}
+          </span>
+        </div>
+
+        <div class="docmock__body">
+          <p class="docmock__title">{products.doc.title}</p>
+          <span class="docmock__line"></span>
+          <span class="docmock__line docmock__line--short"></span>
+          <span class="docmock__line"></span>
+          <span class="docmock__line docmock__line--mid"></span>
+          <span class="docmock__seal">
+            <em>{products.doc.sealLine1}</em>
+            <em>{products.doc.sealLine2}</em>
+          </span>
+        </div>
+
+        <div class="docmock__foot">
+          <span>{products.doc.hash}</span>
+          <span class="docmock__sealed">{products.doc.footnote}</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="header-2 products__gridtitle">{products.gridTitle}</h3>
+
+    <ul class="products__grid">
+      {products.items.map((item) => (
+        <li class="pcard">
+          <p class="pcard__name">
+            <Icon name={item.icon} size={20} class="pcard__icon" />
+            {item.name}
+          </p>
+          <p class="pcard__body">{item.body}</p>
+          <a class="btn btn--light pcard__cta" href={item.cta.href}>{item.cta.label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .products__lead {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: center;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .products__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .products__brandmark { color: var(--tangerine); }
+
+  .products__body { margin-top: 1.25rem; }
+  .products__cta { margin-top: 1.75rem; }
+
+  /* ── Document mock ──────────────────────────────────────── */
+  .docmock {
+    justify-self: end;
+    width: min(100%, 400px);
+    padding: 1.125rem 1.25rem 1rem;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    color: var(--ink);
+    box-shadow: 0 30px 70px -36px rgba(0, 0, 0, 0.75);
+  }
+
+  .docmock__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .docmock__mark { color: var(--tangerine); }
+
+  .docmock__ref {
+    font-size: var(--t-footnote);
+    font-weight: 600;
+    color: var(--muted-2);
+  }
+
+  .docmock__check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .docmock__avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--line);
+    flex: none;
+  }
+
+  .docmock__checkcopy {
+    font-size: var(--t-footnote);
+    color: var(--muted);
+  }
+
+  .docmock__verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-left: auto;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    font-size: var(--t-footnote);
+    font-weight: 600;
+    color: var(--blue);
+  }
+
+  .docmock__body {
+    position: relative;
+    margin-top: 0.875rem;
+    padding: 0.875rem 1rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--malumanay);
+  }
+
+  .docmock__title {
+    font-size: var(--t-footnote);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  .docmock__line {
+    display: block;
+    height: 6px;
+    margin-top: 0.625rem;
+    border-radius: 3px;
+    background: var(--line-2);
+    opacity: 0.8;
+  }
+
+  .docmock__line--short { width: 55%; }
+  .docmock__line--mid { width: 72%; }
+
+  .docmock__seal {
+    position: absolute;
+    right: 0.875rem;
+    bottom: 0.625rem;
+    display: grid;
+    place-content: center;
+    width: 74px;
+    height: 74px;
+    rotate: -11deg;
+    border: 2px solid var(--malaya);
+    border-radius: 50%;
+    color: var(--blue);
+    text-align: center;
+  }
+
+  .docmock__seal em {
+    display: block;
+    font-style: normal;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .docmock__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    font-size: var(--t-footnote);
+    color: var(--muted-2);
+  }
+
+  .docmock__sealed {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--malaya);
+  }
+
+  /* ── Product cards ──────────────────────────────────────── */
+  .products__gridtitle { margin-top: clamp(3rem, 6vw, 4.5rem); }
+
+  .products__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.75rem;
+  }
+
+  .pcard {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .pcard__name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .pcard__icon { color: var(--tangerine); }
+
+  .pcard__body {
+    margin-top: 0.875rem;
+    font-size: var(--t-small);
+    line-height: 1.57;
+    color: var(--tahimik);
+  }
+
+  .pcard__cta {
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    margin-block-start: 1.5rem;
+    font-size: var(--t-small);
+  }
+
+  @media (max-width: 1023px) {
+    .products__lead { grid-template-columns: minmax(0, 1fr); }
+    .docmock { justify-self: start; }
+    .products__grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

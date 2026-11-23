@@ -1,0 +1,203 @@
+/* ─── UNAWA brand tokens (Redesign 2026 / Style Guide 2026) ─────────────── */
+:root {
+  /* Core palette — names mirror the Figma colour styles */
+  --midnight:   #111143; /* UNAWA Midnight — dark grounds, headings, primary buttons */
+  --blue:       #223381; /* UNAWA Blue — eyebrows, links, icons */
+  --malaya:     #5c88fb; /* Malaya Blue — bright accent, focus rings, dots */
+  --tahimik:    #9bacd8; /* secondary text on dark grounds */
+  --tangerine:  #ff9f00; /* UNAWA Tangerine — logomark, warm accent */
+  --peach:      #ffede3; /* Malumanay Orange — warm light band */
+  --malumanay:  #eef4fc; /* Malumanay Blue — cool light band */
+  --paper:      #f8fafe; /* page / footer ground */
+  --white:      #ffffff;
+
+  /* Text */
+  --ink:        #111143;
+  --ink-2:      #2a2c62;
+  --muted:      #4b4f7a;
+  --muted-2:    #5f6493;
+
+  /* Lines */
+  --line:       #e1e6f2;
+  --line-2:     #ccd4e8;
+
+  /* Layout */
+  /* 1280 outer - 2x40 gutter = the 1200px content column the Figma frame uses */
+  --container:  1280px;
+  --gutter:     clamp(1.25rem, 4vw, 2.5rem);
+  --nav-h:      86px;
+
+  /* Type scale — the named Figma text styles, fluid between mobile and 1440 */
+  --t-display-1: clamp(2.125rem, 0.93rem + 5.1vw, 4.375rem); /* 34 → 70 / 1.0  */
+  --t-display-2: clamp(2rem, 1.38rem + 2.78vw, 3.125rem);    /* 32 → 50 / 1.2  */
+  --t-header:    clamp(1.5rem, 1.22rem + 1.25vw, 2rem);      /* 24 → 32 / 1.3  */
+  --t-subheader: clamp(1.25rem, 1.08rem + 0.78vw, 1.5625rem);/* 20 → 25 / 1.4  */
+  --t-body-lg:   1.25rem;                                     /* 20 / 1.5       */
+  --t-body:      1rem;                                        /* 16 / 1.375     */
+  --t-small:     0.875rem;                                    /* 14 / 1.57      */
+  --t-eyebrow:   0.75rem;                                     /* 12, tracked    */
+  --t-footnote:  0.6875rem;                                   /* 11 / 1.5       */
+
+  --radius-sm:  8px;
+  --radius:     12px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+}
+
+/* ─── Reset ─────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 1rem);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--t-body);
+  line-height: 1.375;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+
+:focus-visible {
+  outline: 2px solid var(--malaya);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Layout helpers ────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section { padding-block: clamp(3.5rem, 2rem + 6.5vw, 6rem); }
+
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -4rem;
+  z-index: 200;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--midnight);
+  color: var(--white);
+  font-weight: 600;
+  transition: top 0.15s ease;
+}
+.skip-link:focus-visible { top: 0.75rem; }
+
+/* ─── Typography primitives ─────────────────────────────────────────────── */
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: var(--t-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.eyebrow--on-dark { color: var(--malaya); }
+
+.display-1 {
+  font-size: var(--t-display-1);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.display-2 {
+  font-size: var(--t-display-2);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.header-2 {
+  font-size: var(--t-header);
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  max-width: 38ch;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--muted);
+}
+.lede--on-dark { color: var(--tahimik); }
+
+.card-title {
+  font-size: var(--t-body);
+  line-height: 1.375;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.card-copy {
+  margin-top: 0.5rem;
+  font-size: var(--t-small);
+  line-height: 1.57;
+  color: var(--muted);
+}
+
+/* ─── Buttons ───────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 42px;
+  padding: 0.6875rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: var(--t-body);
+  line-height: 1;
+  font-weight: 600;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    transform 0.15s ease, color 0.15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+
+.btn--dark   { background: var(--midnight); color: var(--white); }
+.btn--dark:hover { background: #1a1a5e; }
+
+.btn--light  { background: var(--white); color: var(--midnight); }
+.btn--light:hover { background: #eef2fb; }
+
+.btn--outline {
+  background: var(--white);
+  color: var(--blue);
+  border-color: var(--malaya);
+}
+.btn--outline:hover { background: #e9eefb; }
+
+/* ─── Dark ground ───────────────────────────────────────────────────────── */
+.ground-dark { background: var(--midnight); color: var(--white); }
+.ground-dark .card-title { color: var(--white); }
+.ground-dark .card-copy  { color: var(--tahimik); }

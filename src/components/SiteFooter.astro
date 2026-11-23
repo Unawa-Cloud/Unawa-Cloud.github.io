@@ -1,0 +1,268 @@
+---
+import BrandMark from './BrandMark.astro';
+import Icon from './Icon.astro';
+import { footer } from '../data/content';
+
+/** The Figma footer carries the NotarizeIT | UNAWA lockup. Kept as designed. */
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brandcol">
+      <p class="footer__lockup">
+        <Icon name="spark" size={22} class="footer__spark" />
+        <span class="footer__product">NotarizeIT</span>
+        <span class="footer__divider" aria-hidden="true"></span>
+        <BrandMark size={16} class="footer__shield" />
+        <span class="footer__parent">UNAWA</span>
+      </p>
+
+      <address class="footer__address">
+        {footer.address.map((line) => <span>{line}</span>)}
+      </address>
+
+      <p class="footer__notarize">
+        {footer.notarizePrompt}{' '}
+        <a href={footer.notarizeLink.href}>{footer.notarizeLink.label}</a>
+      </p>
+
+      <div class="footer__badges">
+        <span class="footer__seal" aria-hidden="true"><Icon name="award" size={20} /></span>
+        <span class="footer__badge"><Icon name="award" size={14} />{footer.badges[0]}</span>
+        <span class="footer__badge"><Icon name="lock" size={14} />{footer.badges[1]}</span>
+      </div>
+    </div>
+
+    <div class="footer__newscol">
+      <h2 class="footer__newstitle">{footer.newsletter.title}</h2>
+      <p class="footer__newsbody">{footer.newsletter.body}</p>
+
+      <form class="footer__form" data-newsletter-form>
+        <label class="sr-only" for="newsletter-email">Email address</label>
+        <input
+          id="newsletter-email"
+          name="email"
+          type="email"
+          required
+          placeholder={footer.newsletter.placeholder}
+        />
+        <button class="btn btn--dark" type="submit">{footer.newsletter.submit}</button>
+      </form>
+      <p class="footer__formstatus" data-newsletter-status role="status" hidden></p>
+
+      <ul class="footer__social">
+        {footer.social.map((item) => (
+          <li>
+            <a href={item.href} aria-label={item.name}>
+              <Icon name={item.icon} size={18} />
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <ul class="footer__legal">
+        {footer.legalLinks.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="container">
+    <p class="footer__disclaimer">{footer.disclaimer}</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    padding-block: clamp(2.5rem, 4vw, 3.5rem) 2rem;
+  }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .footer__lockup {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .footer__spark { color: var(--tangerine); }
+
+  .footer__product {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .footer__divider {
+    width: 1px;
+    height: 20px;
+    background: var(--line-2);
+  }
+
+  .footer__shield { color: var(--tangerine); }
+
+  .footer__parent {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+  }
+
+  .footer__address {
+    display: grid;
+    gap: 0.15rem;
+    margin-top: 1.25rem;
+    font-style: normal;
+    font-size: var(--t-small);
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .footer__notarize {
+    margin-top: 0.5rem;
+    font-size: var(--t-small);
+    color: var(--muted);
+  }
+
+  .footer__notarize a {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .footer__notarize a:hover { color: var(--blue); }
+
+  .footer__badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+  }
+
+  .footer__seal {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 56px;
+    border: 1.5px solid var(--line-2);
+    border-radius: 22px 22px 8px 8px;
+    background: var(--white);
+    color: var(--blue);
+  }
+
+  .footer__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--t-footnote);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+  }
+
+  .footer__newstitle {
+    font-size: var(--t-body);
+    font-weight: 700;
+  }
+
+  .footer__newsbody {
+    margin-top: 0.375rem;
+    font-size: var(--t-small);
+    color: var(--muted);
+  }
+
+  .footer__form {
+    display: flex;
+    gap: 0.625rem;
+    margin-top: 1rem;
+  }
+
+  .footer__form input {
+    flex: 1;
+    min-width: 0;
+    max-width: 260px;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    font-size: var(--t-small);
+  }
+
+  .footer__form .btn {
+    min-height: 40px;
+    padding-inline: 1rem;
+    font-size: var(--t-small);
+  }
+
+  .footer__formstatus {
+    margin-top: 0.5rem;
+    font-size: var(--t-small);
+    color: var(--blue);
+  }
+
+  .footer__social {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    color: var(--ink);
+  }
+
+  .footer__social a:hover { color: var(--blue); }
+
+  .footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1rem;
+    font-size: var(--t-small);
+    color: var(--muted);
+  }
+
+  .footer__legal a:hover { color: var(--blue); }
+
+  .footer__disclaimer {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-size: var(--t-footnote);
+    line-height: 1.6;
+    color: var(--muted-2);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 899px) {
+    .footer__inner { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-newsletter-form]');
+  const status = document.querySelector<HTMLElement>('[data-newsletter-status]');
+
+  form?.addEventListener('submit', (event) => {
+    // No backend on GitHub Pages — point this at a real list provider.
+    event.preventDefault();
+    if (status) {
+      status.hidden = false;
+      status.textContent = 'Subscriptions are not connected to a backend yet.';
+    }
+  });
+</script>

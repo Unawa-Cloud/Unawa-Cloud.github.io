@@ -1,0 +1,100 @@
+---
+import Icon from './Icon.astro';
+import { trust } from '../data/content';
+
+/** Partner logos are wordmark placeholders until the real SVGs are exported. */
+---
+
+<section class="trust" aria-label="Accreditation and partners">
+  <div class="container trust__inner">
+    {trust.groups.map((group) => (
+      <div class="trust__group">
+        <p class="trust__label">{group.label}</p>
+        <ul class="trust__items">
+          {group.items.map((item) => (
+            <li class={group.kind === 'seal' ? 'trust__seal' : 'trust__logo'}>
+              {group.kind === 'seal' && (
+                <span class="trust__sealmark"><Icon name="award" size={18} /></span>
+              )}
+              <span>{item.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .trust {
+    background: var(--malumanay);
+    border-block: 1px solid var(--line);
+  }
+
+  .trust__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem clamp(1rem, 2.5vw, 2.25rem);
+    min-height: 79px;
+    padding-block: 1rem;
+  }
+
+  .trust__group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+  }
+
+  .trust__label {
+    font-size: var(--t-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    white-space: nowrap;
+  }
+
+  .trust__items {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.625rem 1rem;
+  }
+
+  .trust__logo {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--ink-2);
+    opacity: 0.75;
+  }
+
+  .trust__seal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--t-footnote);
+    color: var(--muted-2);
+  }
+
+  .trust__sealmark {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line-2);
+    background: var(--white);
+    color: var(--blue);
+    flex: none;
+  }
+
+  @media (max-width: 1023px) {
+    .trust__inner { justify-content: flex-start; }
+  }
+</style>

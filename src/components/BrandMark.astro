@@ -1,0 +1,33 @@
+---
+/**
+ * UNAWA shield logomark, redrawn as a placeholder for the real brand asset.
+ * Swap `public/logo-unawa.svg` in and replace this component when the export
+ * from Figma is available.
+ */
+interface Props {
+  size?: number | string;
+  class?: string;
+  label?: string;
+}
+const { size = 24, class: className, label } = Astro.props;
+const a11y = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true' };
+---
+
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 32 32"
+  xmlns="http://www.w3.org/2000/svg"
+  {...a11y}
+>
+  <path
+    fill="currentColor"
+    d="M5.4 3h5.5v12.9a5.1 5.1 0 1 0 10.2 0V3h5.5v12.9a10.6 10.6 0 0 1-21.2 0V3Z"
+  />
+  <path
+    fill="currentColor"
+    d="M5.4 3h5.5v3.6H5.4V3Zm15.7 0h5.5v3.6h-5.5V3Z"
+    opacity="0.55"
+  />
+</svg>

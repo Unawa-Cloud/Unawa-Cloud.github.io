@@ -1,0 +1,199 @@
+---
+import { support } from '../data/content';
+
+/**
+ * Static markup only. GitHub Pages serves no backend, so the form has no
+ * `action`; wire it to a form endpoint (Formspree, a Worker, the UNAWA API)
+ * before launch. The submit handler below just blocks the default navigation.
+ */
+const { fields } = support;
+---
+
+<section class="support ground-dark section" id="support">
+  <div class="container support__inner">
+    <div class="support__copy">
+      <p class="eyebrow eyebrow--on-dark">{support.eyebrow}</p>
+      <h2 class="display-2">Need help with a<br />request or issue?</h2>
+      <p class="lede lede--on-dark support__body">{support.body}</p>
+    </div>
+
+    <form class="support__form" data-support-form>
+      <div class="field">
+        <label for="support-name">{fields.name.label}</label>
+        <input
+          id="support-name"
+          name="name"
+          type="text"
+          required
+          placeholder={fields.name.placeholder}
+        />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="support-email">{fields.email.label}</label>
+          <input
+            id="support-email"
+            name="email"
+            type="email"
+            required
+            placeholder={fields.email.placeholder}
+          />
+        </div>
+
+        <div class="field">
+          <label for="support-type">{fields.ticketType.label}</label>
+          <select id="support-type" name="ticketType" required>
+            <option value="">{fields.ticketType.placeholder}</option>
+            {fields.ticketType.options.map((option) => (
+              <option value={option}>{option}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="support-message">{fields.message.label}</label>
+        <textarea
+          id="support-message"
+          name="message"
+          rows="5"
+          placeholder={fields.message.placeholder}></textarea>
+      </div>
+
+      <label class="attach">
+        <span>{support.attach}</span>
+        <input type="file" name="attachment" />
+      </label>
+
+      <div class="support__actions">
+        <button class="btn support__submit" type="submit">{support.submit}</button>
+      </div>
+
+      <p class="support__status" data-support-status role="status" hidden></p>
+    </form>
+  </div>
+</section>
+
+<style>
+  .support__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .support__body { margin-top: 1.25rem; max-width: 42ch; }
+
+  .support__form { display: grid; gap: 1rem; }
+
+  .field { display: grid; gap: 0.375rem; min-width: 0; }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .field label,
+  .attach span {
+    font-size: var(--t-small);
+    font-weight: 500;
+    color: var(--white);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 0.6875rem 0.875rem;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    color: var(--ink);
+    font-size: var(--t-small);
+  }
+
+  .field textarea { resize: vertical; min-height: 118px; }
+
+  .field input::placeholder,
+  .field textarea::placeholder { color: var(--muted-2); opacity: 0.8; }
+
+  .field select { appearance: none; padding-right: 2.25rem; }
+
+  .field:has(select) { position: relative; }
+
+  .field:has(select)::after {
+    content: '';
+    position: absolute;
+    right: 0.875rem;
+    bottom: 1.05rem;
+    width: 9px;
+    height: 9px;
+    border-right: 1.8px solid var(--malaya);
+    border-bottom: 1.8px solid var(--malaya);
+    rotate: 45deg;
+    pointer-events: none;
+  }
+
+  .attach {
+    justify-self: start;
+    font-size: var(--t-small);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  .attach input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+  .support__actions { display: flex; justify-content: flex-end; }
+
+  .support__submit {
+    min-height: 42px;
+    padding-inline: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--white);
+    font-size: var(--t-small);
+  }
+
+  .support__submit:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--malaya);
+  }
+
+  .support__status {
+    margin: 0;
+    font-size: var(--t-small);
+    color: var(--malaya);
+  }
+
+  @media (max-width: 899px) {
+    .support__inner { grid-template-columns: minmax(0, 1fr); }
+    .field-row { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-support-form]');
+  const status = document.querySelector<HTMLElement>('[data-support-status]');
+
+  form?.addEventListener('submit', (event) => {
+    // No backend on GitHub Pages — replace this with a real form endpoint.
+    event.preventDefault();
+    if (status) {
+      status.hidden = false;
+      status.textContent =
+        'This form is not connected to a backend yet.';
+    }
+  });
+
+  const fileInput = form?.querySelector<HTMLInputElement>('input[type="file"]');
+  const attachLabel = form?.querySelector<HTMLElement>('.attach span');
+  const attachDefault = attachLabel?.textContent ?? '';
+
+  fileInput?.addEventListener('change', () => {
+    if (!attachLabel) return;
+    attachLabel.textContent = fileInput.files?.[0]?.name ?? attachDefault;
+  });
+</script>

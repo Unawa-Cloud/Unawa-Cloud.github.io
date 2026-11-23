@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteNav from '../components/SiteNav.astro';
+import Hero from '../components/Hero.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import Products from '../components/Products.astro';
+import WhyTrust from '../components/WhyTrust.astro';
+import Approach from '../components/Approach.astro';
+import TeamCta from '../components/TeamCta.astro';
+import Support from '../components/Support.astro';
+import Resources from '../components/Resources.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { meta } from '../data/content';
+---
+
+<Base title={meta.title} description={meta.description}>
+  <SiteNav />
+  <main id="main-content">
+    <Hero />
+    <TrustStrip />
+    <Products />
+    <WhyTrust />
+    <Approach />
+    <TeamCta />
+    <Support />
+    <Resources />
+  </main>
+  <SiteFooter />
+</Base>

@@ -1,0 +1,332 @@
+---
+import Icon from './Icon.astro';
+import { hero } from '../data/content';
+
+/**
+ * The right-hand collage is rebuilt in markup rather than exported from Figma.
+ * Every photo is a `.ph` placeholder — drop real imagery into `public/` and
+ * replace the `.ph` elements when the assets land.
+ */
+---
+
+<section class="hero" id="top">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <h1 class="display-1">
+        Move your<br />business{' '}<span class="hero__accent">{hero.titleAccent}</span>
+      </h1>
+      <p class="lede hero__lede">{hero.body}</p>
+      <a class="btn btn--dark hero__cta" href={hero.cta.href}>{hero.cta.label}</a>
+    </div>
+
+    <div class="hero__stage" aria-hidden="true">
+      <!-- Live session card -->
+      <figure class="session">
+        <figcaption class="session__bar">
+          <span class="session__dots"><i></i><i></i><i></i></span>
+          <span class="session__title">{hero.session.windowTitle}</span>
+          <span class="session__live"><i></i>{hero.session.liveLabel}</span>
+        </figcaption>
+
+        <div class="session__stage">
+          <div class="ph session__feed">
+            <svg viewBox="0 0 120 120" class="ph__glyph"><circle cx="60" cy="44" r="21" /><path d="M14 118c3-27 22-42 46-42s43 15 46 42Z" /></svg>
+          </div>
+
+          <span class="session__pill">
+            <Icon name="check" size={13} />
+            {hero.session.statusPill}
+          </span>
+
+          <span class="session__role">{hero.session.participantRole}</span>
+
+          <div class="session__tiles">
+            <div class="ph session__tile"><svg viewBox="0 0 120 120" class="ph__glyph"><circle cx="60" cy="44" r="21" /><path d="M14 118c3-27 22-42 46-42s43 15 46 42Z" /></svg></div>
+            <div class="ph session__tile"><svg viewBox="0 0 120 120" class="ph__glyph"><circle cx="60" cy="44" r="21" /><path d="M14 118c3-27 22-42 46-42s43 15 46 42Z" /></svg></div>
+          </div>
+
+          <div class="session__controls">
+            <span class="ctl"><Icon name="mic" size={15} /></span>
+            <span class="ctl"><Icon name="camera" size={15} /></span>
+            <span class="ctl ctl--end"><Icon name="hangup" size={15} /></span>
+          </div>
+        </div>
+      </figure>
+
+      <!-- Signature card -->
+      <div class="sigcard">
+        <svg class="sigcard__ink" viewBox="0 0 180 56" fill="none" aria-hidden="true">
+          <path
+            d="M6 44c14-4 20-30 29-34s8 16 3 25-13 13-10 4 14-16 24-16 15 8 23 7 11-9 18-11 13 4 21 2 15-9 22-11"
+            stroke="currentColor"
+            stroke-width="2.4"
+            stroke-linecap="round"
+          />
+        </svg>
+        <p class="sigcard__hash">{hero.signature.hash}</p>
+      </div>
+
+      <!-- Folder card -->
+      <div class="foldercard">
+        <span class="foldercard__icon"><Icon name="folder" size={20} /></span>
+        <span class="foldercard__menu"><Icon name="dots" size={16} /></span>
+        <p class="foldercard__name">{hero.folder.name}</p>
+        <p class="foldercard__meta">{hero.folder.meta}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background:
+      radial-gradient(90rem 40rem at 78% 18%, #eef4fc 0%, rgba(238, 244, 252, 0) 62%),
+      linear-gradient(180deg, var(--white) 0%, var(--paper) 100%);
+  }
+
+  .hero__inner {
+    display: grid;
+    /* 590px headline column beside a 632px collage, as laid out in Figma */
+    grid-template-columns: minmax(0, 0.49fr) minmax(0, 0.51fr);
+    align-items: center;
+    gap: clamp(1.5rem, 2vw, 2rem);
+    padding-block: clamp(3rem, 2rem + 5vw, 5.5rem);
+  }
+
+  .hero__accent {
+    background: linear-gradient(90deg, var(--tangerine) 0%, #c08b5a 46%, #8c93d4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero__lede { margin-top: 1.5rem; }
+  .hero__cta { margin-top: 2rem; }
+
+  /* ── Collage stage ──────────────────────────────────────── */
+  .hero__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 620 / 500;
+  }
+
+  /* Shared photo placeholder */
+  .ph {
+    display: grid;
+    place-items: center;
+    background: linear-gradient(140deg, #d8e0f2 0%, #c3cfe6 55%, #aebbd8 100%);
+    overflow: hidden;
+  }
+
+  .ph__glyph {
+    width: 48%;
+    max-width: 92px;
+    fill: rgba(255, 255, 255, 0.62);
+  }
+
+  /* Session card */
+  .session {
+    position: absolute;
+    inset: 0 0 auto auto;
+    width: 78%;
+    margin: 0;
+    border-radius: var(--radius);
+    background: var(--white);
+    border: 1px solid var(--line);
+    box-shadow: 0 26px 60px -32px rgba(17, 17, 67, 0.45);
+    overflow: hidden;
+  }
+
+  .session__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.875rem;
+    border-bottom: 1px solid var(--line);
+    font-size: var(--t-footnote);
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+
+  .session__dots { display: flex; gap: 4px; }
+  .session__dots i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--line-2);
+  }
+
+  .session__title { font-size: 0.75rem; }
+
+  .session__live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--malaya);
+  }
+  .session__live i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--malaya);
+  }
+
+  .session__stage {
+    position: relative;
+    aspect-ratio: 16 / 10;
+  }
+
+  .session__feed { position: absolute; inset: 0; }
+
+  .session__pill {
+    position: absolute;
+    top: 0.625rem;
+    left: 0.625rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    background: var(--midnight);
+    color: var(--white);
+    font-size: var(--t-footnote);
+    font-weight: 600;
+  }
+
+  .session__role {
+    position: absolute;
+    left: 0.625rem;
+    bottom: 0.625rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: var(--radius-sm);
+    background: rgba(17, 17, 67, 0.72);
+    color: var(--white);
+    font-size: var(--t-footnote);
+    font-weight: 500;
+  }
+
+  .session__tiles {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    display: grid;
+    gap: 0.4rem;
+    width: 26%;
+  }
+
+  .session__tile {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid rgba(255, 255, 255, 0.75);
+  }
+
+  .session__controls {
+    position: absolute;
+    right: 0.625rem;
+    bottom: 0.625rem;
+    display: flex;
+    gap: 0.375rem;
+  }
+
+  .ctl {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--ink-2);
+  }
+
+  .ctl--end { background: #e8513f; color: var(--white); }
+
+  /* Signature card */
+  .sigcard {
+    position: absolute;
+    left: 0;
+    bottom: 10%;
+    width: 40%;
+    padding: 1rem 1rem 0.75rem;
+    border-radius: var(--radius);
+    background: var(--white);
+    border: 1px solid var(--line);
+    box-shadow: 0 22px 44px -28px rgba(17, 17, 67, 0.5);
+  }
+
+  .sigcard__ink {
+    width: 100%;
+    height: auto;
+    color: var(--ink-2);
+  }
+
+  .sigcard__hash {
+    margin-top: 0.75rem;
+    font-size: var(--t-footnote);
+    letter-spacing: 0.02em;
+    color: var(--muted-2);
+  }
+
+  /* Folder card */
+  .foldercard {
+    position: absolute;
+    right: 6%;
+    bottom: 0;
+    width: 33%;
+    padding: 0.875rem 1rem 1rem;
+    border-radius: var(--radius);
+    background: var(--white);
+    border: 1px solid var(--line);
+    box-shadow: 0 22px 44px -28px rgba(17, 17, 67, 0.5);
+  }
+
+  .foldercard__icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    background: var(--malumanay);
+    color: var(--blue);
+  }
+
+  .foldercard__menu {
+    position: absolute;
+    top: 0.875rem;
+    right: 0.875rem;
+    color: var(--line-2);
+  }
+
+  .foldercard__name {
+    margin-top: 1.5rem;
+    font-size: var(--t-small);
+    font-weight: 600;
+  }
+
+  .foldercard__meta {
+    margin-top: 0.2rem;
+    font-size: var(--t-footnote);
+    color: var(--muted-2);
+  }
+
+  @media (max-width: 1023px) {
+    .hero__inner { grid-template-columns: minmax(0, 1fr); }
+    .hero__stage { aspect-ratio: 620 / 440; max-width: 560px; }
+    .hero__lede { max-width: 46ch; }
+  }
+
+  /* Below 560px the three cards cannot clear each other at the design's
+     proportions, so the decorative folder card steps out. */
+  @media (max-width: 560px) {
+    .hero__stage { aspect-ratio: 620 / 470; }
+    .session { width: 86%; }
+    .sigcard {
+      width: 56%;
+      bottom: 0;
+      padding: 0.75rem 0.875rem 0.625rem;
+    }
+    .foldercard { display: none; }
+  }
+</style>
