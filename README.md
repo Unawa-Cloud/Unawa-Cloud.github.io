@@ -99,6 +99,7 @@ Figma; it was taken from repos already on the team's machines:
 | `brand/unawa.svg` | the same file, `fill="white"` swapped for `#111143` |
 | `brand/signsecure-mark.png`, `ucheck-mark.png`, `forma-mark.png` | `unawa-marketing/public/images/products/logos/`, cropped and recoloured |
 | `badges/dpo.png`, `supreme-court.png`, `ssl.png` | `notarizeit-frontend-v2/public/images/accredited-*.png` |
+| `hero/notary.jpg`, `participant-1.jpg`, `participant-2.jpg` | exported from the frame at 2x, converted to JPEG |
 
 The NotarizeIT and UNAWA files are true vector and already use `#111143` and
 `#FFA000`.
@@ -115,6 +116,13 @@ design can provide them.
 
 `--tangerine` is `#ffa000` to match the frame exactly.
 
+The three hero photographs were exported from the frame at 2x PNG and
+converted to JPEG with `sips`, which took them from 586KB to 87KB with no
+visible difference. `notary.jpg` is 862x410, wider than the 16:10 tile it
+sits in, so it is `object-fit: cover`. The two participant tiles are only
+166x134, barely above their display size, so they are soft on a retina
+screen; re-export those at 4x if it shows.
+
 One thing to settle with design: `badges/dpo.png` reads
 **VALIDITY PERIOD 06 November 2025** and may have lapsed.
 
@@ -124,10 +132,6 @@ One thing to settle with design: `badges/dpo.png` reads
   Investing in Women) — wordmarks in `components/TrustStrip.astro`. No artwork
   for these exists in any repo; `unawa-marketing/public/images/partners/` holds
   249-byte files whose only content is the text "Partner 1".
-- **Hero collage photography** — the video feed and participant tiles are `.ph`
-  gradient blocks with a silhouette glyph. The only hero art on disk is
-  `unawa-marketing/public/images/hero/notarizeit-hero-kv.png`, which is the
-  older purple NotarizeIT key visual and does not fit this palette.
 - **Resource card thumbnails** — grey blocks, matching the placeholder state the
   Figma frame itself is in.
 

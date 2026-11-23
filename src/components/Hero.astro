@@ -3,9 +3,9 @@ import Icon from './Icon.astro';
 import { hero } from '../data/content';
 
 /**
- * The right-hand collage is rebuilt in markup rather than exported from Figma.
- * Every photo is a `.ph` placeholder — drop real imagery into `public/` and
- * replace the `.ph` elements when the assets land.
+ * The right-hand collage is rebuilt in markup rather than exported as one image.
+ * The three photographs are the real ones, exported from the frame at 2x; the
+ * cards, controls and labels around them are markup.
  */
 ---
 
@@ -29,9 +29,7 @@ import { hero } from '../data/content';
         </figcaption>
 
         <div class="session__stage">
-          <div class="ph session__feed">
-            <svg viewBox="0 0 120 120" class="ph__glyph"><circle cx="60" cy="44" r="21" /><path d="M14 118c3-27 22-42 46-42s43 15 46 42Z" /></svg>
-          </div>
+          <img class="session__feed" src="/hero/notary.jpg" alt="" width="862" height="410" />
 
           <span class="session__pill">
             <Icon name="check" size={13} />
@@ -41,8 +39,8 @@ import { hero } from '../data/content';
           <span class="session__role">{hero.session.participantRole}</span>
 
           <div class="session__tiles">
-            <div class="ph session__tile"><svg viewBox="0 0 120 120" class="ph__glyph"><circle cx="60" cy="44" r="21" /><path d="M14 118c3-27 22-42 46-42s43 15 46 42Z" /></svg></div>
-            <div class="ph session__tile"><svg viewBox="0 0 120 120" class="ph__glyph"><circle cx="60" cy="44" r="21" /><path d="M14 118c3-27 22-42 46-42s43 15 46 42Z" /></svg></div>
+            <img class="session__tile" src="/hero/participant-1.jpg" alt="" width="166" height="134" />
+            <img class="session__tile" src="/hero/participant-2.jpg" alt="" width="166" height="134" />
           </div>
 
           <div class="session__controls">
@@ -113,20 +111,6 @@ import { hero } from '../data/content';
     aspect-ratio: 620 / 440;
   }
 
-  /* Shared photo placeholder */
-  .ph {
-    display: grid;
-    place-items: center;
-    background: linear-gradient(140deg, #d8e0f2 0%, #c3cfe6 55%, #aebbd8 100%);
-    overflow: hidden;
-  }
-
-  .ph__glyph {
-    width: 48%;
-    max-width: 92px;
-    fill: rgba(255, 255, 255, 0.62);
-  }
-
   /* Session card */
   .session {
     position: absolute;
@@ -182,7 +166,15 @@ import { hero } from '../data/content';
     aspect-ratio: 16 / 10;
   }
 
-  .session__feed { position: absolute; inset: 0; }
+  /* The export is wider than the 16:10 tile, so cover and centre it. */
+  .session__feed {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
 
   .session__pill {
     position: absolute;
@@ -221,7 +213,10 @@ import { hero } from '../data/content';
   }
 
   .session__tile {
-    aspect-ratio: 4 / 3;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 166 / 134;
+    object-fit: cover;
     border-radius: var(--radius-sm);
     border: 1.5px solid rgba(255, 255, 255, 0.75);
   }
