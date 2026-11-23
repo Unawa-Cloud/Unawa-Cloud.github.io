@@ -96,7 +96,7 @@ Figma; it was taken from repos already on the team's machines:
 | --- | --- |
 | `brand/notarizeit.svg`, `brand/notarizeit-white.svg` | `notarizeit-frontend-v2/public/images/` |
 | `brand/unawa-white.svg` | `notarizeit-frontend-v2/public/images/unawa-white.svg` |
-| `brand/unawa.svg` | the same file, `fill="white"` swapped for `#111143` |
+| `brand/unawa.svg` | the same file, recoloured: shield `#FFA000`, wordmark `#111143` |
 | `brand/signsecure-mark.png`, `ucheck-mark.png`, `forma-mark.png` | `unawa-marketing/public/images/products/logos/`, cropped and recoloured |
 | `badges/dpo.png`, `supreme-court.png`, `ssl.png` | `notarizeit-frontend-v2/public/images/accredited-*.png` |
 | `hero/notary.jpg`, `participant-1.jpg`, `participant-2.jpg` | exported from the frame at 2x, converted to JPEG |
@@ -115,6 +115,13 @@ real ones; only the hue was changed. Replace them with proper exports when
 design can provide them.
 
 `--tangerine` is `#ffa000` to match the frame exactly.
+
+`unawa.svg` started as the white-on-dark lockup, the only UNAWA vector that
+shipped anywhere. Recolouring every path to `#111143` turned the shield navy
+too, which the frame does not do. The nine paths were split by bounding box:
+the three at x 0-49.8 of the 184-wide viewBox are the shield and take
+`#FFA000`, the six from x 65.4 rightward are the UNAWA wordmark and the
+trademark glyph, and take `#111143`.
 
 The three hero photographs were exported from the frame at 2x PNG and
 converted to JPEG with `sips`, which took them from 586KB to 87KB with no
