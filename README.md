@@ -28,16 +28,16 @@ First-run checklist:
 
 1. **Settings → Pages → Source** → **GitHub Actions**.
 2. **Settings → Pages → Custom domain** → `www.unawa.asia`.
-3. DNS: point `www` at `unawa-cloud.github.io.` with a CNAME record. Today it
-   resolves to the Azure host `52.237.90.43`, shared with the apex, so the apex
-   is unaffected by the move.
+3. DNS: repoint the `www` CNAME at `unawa-cloud.github.io.`. It currently
+   resolves to the same host as the apex, so the apex is unaffected.
 4. Wait for the certificate to issue, then tick **Enforce HTTPS**.
 
 `public/CNAME` carries the domain so the Pages setting survives every deploy.
 Without that file the custom domain is cleared on the next publish.
 
-GitHub Pages needs the repo to be public, or the organisation on GitHub Team or
-above. Every other repo in `Unawa-Cloud` is private.
+`Unawa-Cloud` is on the GitHub Free plan, which does not serve Pages from a
+private repo, so this repo has to be public. The alternative is upgrading the
+organisation to Team.
 
 `compressHTML: true` is set deliberately. Astro 7 changed the default to
 `'jsx'`, which strips whitespace between adjacent inline elements and would
