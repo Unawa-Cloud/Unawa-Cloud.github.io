@@ -202,12 +202,14 @@ export const support = {
     ticketType: {
       label: 'Select ticket type',
       placeholder: 'Ticket Type',
+      // `value` is the slug the intake route validates against; `label` is what
+      // the frame prints. See notarizeit-marketing-v2 app/api/support/route.ts.
       options: [
-        'Account & access',
-        'Billing',
-        'Technical issue',
-        'Document or notarization',
-        'Something else',
+        { value: 'account-access', label: 'Account & access' },
+        { value: 'billing', label: 'Billing' },
+        { value: 'technical', label: 'Technical issue' },
+        { value: 'document', label: 'Document or notarization' },
+        { value: 'other', label: 'Something else' },
       ],
     },
     message: { label: 'Message:', placeholder: 'Enter your concern here…' },
