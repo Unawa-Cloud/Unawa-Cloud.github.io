@@ -234,9 +234,6 @@ export const footer = {
     '10th Floor, 8 Rockwell Building, Hidalgo cor Plaza Drives,',
     'Rockwell Center, Makati, Philippines',
   ],
-  notarizePrompt: 'Need a document notarized?',
-  notarizeLink: { label: 'Notarize online →', href: '#notarizeit' },
-  badges: ['Supreme Court accredited', 'Secure SSL'],
   newsletter: {
     title: 'Stay in the loop',
     body: 'Updates on e-notarization in the Philippines — no spam.',
@@ -253,12 +250,6 @@ export const footer = {
     { label: 'Privacy Preferences', href: '#privacy-preferences' },
     { label: 'Terms of Service', href: '#terms' },
   ],
-  disclaimer:
-    'NotarizeIT does not provide legal advice or legal representation. ' +
-    'Notarization is performed solely and independently by Electronic Notaries ' +
-    'Public commissioned by the Supreme Court of the Philippines. ' +
-    '© 2026 UNAWA. All rights reserved.',
-  privacyButton: 'Privacy preferences',
 } as const;
 
 export const meta = {

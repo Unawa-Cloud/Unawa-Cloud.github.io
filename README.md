@@ -98,7 +98,7 @@ Figma; it was taken from repos already on the team's machines:
 | `brand/unawa-white.svg` | `notarizeit-frontend-v2/public/images/unawa-white.svg` |
 | `brand/unawa.svg` | the same file, recoloured: shield `#FFA000`, wordmark `#111143` |
 | `brand/signsecure-mark.png`, `ucheck-mark.png`, `forma-mark.png` | `unawa-marketing/public/images/products/logos/`, cropped and recoloured |
-| `badges/dpo.png`, `supreme-court.png`, `ssl.png` | `notarizeit-frontend-v2/public/images/accredited-*.png` |
+| `badges/supreme-court.png` | `notarizeit-frontend-v2/public/images/accredited-supreme-court.png` |
 | `hero/notary.jpg`, `participant-1.jpg`, `participant-2.jpg` | exported from the frame at 2x, converted to JPEG |
 
 The NotarizeIT and UNAWA files are true vector and already use `#111143` and
@@ -130,8 +130,14 @@ sits in, so it is `object-fit: cover`. The two participant tiles are only
 166x134, barely above their display size, so they are soft on a retina
 screen; re-export those at 4x if it shows.
 
-One thing to settle with design: `badges/dpo.png` reads
-**VALIDITY PERIOD 06 November 2025** and may have lapsed.
+The footer was revised by the designer on 23 November 2026 and is now much
+shorter: UNAWA alone rather than the NotarizeIT lockup, with the socials and
+legal links moved under the address. The accreditation badges, the
+"Notarize online" prompt and the legal disclaimer were dropped from the
+frame, so `badges/dpo.png` and `badges/ssl.png` were deleted with them. The
+Supreme Court seal stays, because the credibility strip under the hero uses
+it. That also retires the open question about the DPO seal's 2025 validity
+date, since the seal is no longer on the page.
 
 ## What is still a placeholder
 

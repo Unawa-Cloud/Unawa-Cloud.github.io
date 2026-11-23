@@ -2,38 +2,38 @@
 import Icon from './Icon.astro';
 import { footer } from '../data/content';
 
-/** The Figma footer carries the NotarizeIT | UNAWA lockup. Kept as designed. */
+/**
+ * Matches the footer the designer revised on 23 Nov 2026: UNAWA alone rather
+ * than the NotarizeIT lockup, with the socials and legal links moved under the
+ * address. The accreditation badges, the "Notarize online" prompt and the legal
+ * disclaimer were all dropped from the frame.
+ */
 ---
 
 <footer class="footer">
   <div class="container footer__inner">
     <div class="footer__brandcol">
-      <p class="footer__lockup">
-        <img class="footer__productlogo" src="/brand/notarizeit.svg" alt="NotarizeIT" width="500" height="83" />
-        <span class="footer__divider" aria-hidden="true"></span>
-        <img class="footer__parentlogo" src="/brand/unawa.svg" alt="UNAWA" width="184" height="43" />
-      </p>
+      <img class="footer__logo" src="/brand/unawa.svg" alt="UNAWA" width="184" height="43" />
 
       <address class="footer__address">
         {footer.address.map((line) => <span>{line}</span>)}
       </address>
 
-      <p class="footer__notarize">
-        {footer.notarizePrompt}{' '}
-        <a href={footer.notarizeLink.href}>{footer.notarizeLink.label}</a>
-      </p>
+      <ul class="footer__social">
+        {footer.social.map((item) => (
+          <li>
+            <a href={item.href} aria-label={item.name}>
+              <Icon name={item.icon} size={18} />
+            </a>
+          </li>
+        ))}
+      </ul>
 
-      <div class="footer__badges">
-        <img
-          class="footer__seal"
-          src="/badges/dpo.png"
-          alt="DPO/DPS registered with the National Privacy Commission"
-          width="186"
-          height="285"
-        />
-        <span class="footer__badge"><Icon name="award" size={14} />{footer.badges[0]}</span>
-        <span class="footer__badge"><Icon name="lock" size={14} />{footer.badges[1]}</span>
-      </div>
+      <ul class="footer__legal">
+        {footer.legalLinks.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
     </div>
 
     <div class="footer__newscol">
@@ -52,27 +52,7 @@ import { footer } from '../data/content';
         <button class="btn btn--dark" type="submit">{footer.newsletter.submit}</button>
       </form>
       <p class="footer__formstatus" data-newsletter-status role="status" hidden></p>
-
-      <ul class="footer__social">
-        {footer.social.map((item) => (
-          <li>
-            <a href={item.href} aria-label={item.name}>
-              <Icon name={item.icon} size={18} />
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      <ul class="footer__legal">
-        {footer.legalLinks.map((link) => (
-          <li><a href={link.href}>{link.label}</a></li>
-        ))}
-      </ul>
     </div>
-  </div>
-
-  <div class="container">
-    <p class="footer__disclaimer">{footer.disclaimer}</p>
   </div>
 </footer>
 
@@ -80,7 +60,7 @@ import { footer } from '../data/content';
   .footer {
     background: var(--paper);
     border-top: 1px solid var(--line);
-    padding-block: clamp(2.5rem, 4vw, 3.5rem) 2rem;
+    padding-block: clamp(2.5rem, 4vw, 3.5rem);
   }
 
   .footer__inner {
@@ -89,23 +69,9 @@ import { footer } from '../data/content';
     gap: clamp(2rem, 5vw, 4rem);
   }
 
-  .footer__lockup {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-
-  .footer__productlogo { height: 22px; width: auto; }
-
-  .footer__divider {
-    width: 1px;
-    height: 20px;
-    background: var(--line-2);
-  }
-
-
-  .footer__parentlogo { height: 14px; width: auto; }
+  /* 24px puts the lockup at ~0.27 of the address line's width, which is the
+     proportion the frame uses. */
+  .footer__logo { height: 24px; width: auto; }
 
   .footer__address {
     display: grid;
@@ -117,40 +83,25 @@ import { footer } from '../data/content';
     color: var(--muted);
   }
 
-  .footer__notarize {
-    margin-top: 0.5rem;
+  .footer__social {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    color: var(--ink);
+  }
+
+  .footer__social a:hover { color: var(--blue); }
+
+  .footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1.25rem;
     font-size: var(--t-small);
     color: var(--muted);
   }
 
-  .footer__notarize a {
-    font-weight: 700;
-    color: var(--ink);
-  }
-
-  .footer__notarize a:hover { color: var(--blue); }
-
-  .footer__badges {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.25rem;
-    margin-top: 1.75rem;
-  }
-
-  /* The DPO/DPS seal is a tall card, not a glyph. */
-  .footer__seal { width: auto; height: 58px; object-fit: contain; flex: none; }
-
-  .footer__badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: var(--t-footnote);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted-2);
-  }
+  .footer__legal a:hover { color: var(--blue); }
 
   .footer__newstitle {
     font-size: var(--t-body);
@@ -190,35 +141,6 @@ import { footer } from '../data/content';
     margin-top: 0.5rem;
     font-size: var(--t-small);
     color: var(--blue);
-  }
-
-  .footer__social {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-    color: var(--ink);
-  }
-
-  .footer__social a:hover { color: var(--blue); }
-
-  .footer__legal {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
-    margin-top: 1rem;
-    font-size: var(--t-small);
-    color: var(--muted);
-  }
-
-  .footer__legal a:hover { color: var(--blue); }
-
-  .footer__disclaimer {
-    margin-top: clamp(2rem, 4vw, 3rem);
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
-    font-size: var(--t-footnote);
-    line-height: 1.6;
-    color: var(--muted-2);
   }
 
   .sr-only {
