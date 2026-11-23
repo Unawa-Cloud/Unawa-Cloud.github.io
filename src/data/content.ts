@@ -37,23 +37,33 @@ export const trust = {
     {
       label: 'Accredited by',
       kind: 'seal' as const,
-      items: [{ name: 'NotarizeIT by UNAWA · ENS-NFN-2026-00001' }],
+      items: [
+        {
+          name: 'NotarizeIT by UNAWA · ENS-NFN-2026-00001',
+          logo: { src: '/badges/supreme-court.png', width: 28, height: 28 },
+        },
+      ],
     },
     {
       label: 'Recognized by',
       kind: 'logos' as const,
       items: [
-        { name: 'KMC' },
-        { name: 'Startup Awards 2023' },
-        { name: 'PH Startup Week 2020' },
-        { name: 'ADB' },
-        { name: 'LES' },
+        { name: 'KMC', logo: { src: '/logos/kmc.png', width: 63, height: 16 } },
+        { name: 'Startup Awards 2023', logo: { src: '/logos/startup-awards.png', width: 39, height: 22 } },
+        { name: 'PH Startup Week 2020', logo: { src: '/logos/ph-startup-week.png', width: 66, height: 29 } },
+        { name: 'Asian Development Bank', logo: { src: '/logos/adb.png', width: 35, height: 35 } },
+        { name: 'Licensing Executives Society Singapore', logo: { src: '/logos/les.png', width: 44, height: 34 } },
       ],
     },
     {
       label: 'Backed by',
       kind: 'logos' as const,
-      items: [{ name: 'Investing in Women' }],
+      items: [
+        {
+          name: 'Investing in Women, an initiative of the Australian Government',
+          logo: { src: '/logos/investing-in-women.png', width: 139, height: 28 },
+        },
+      ],
     },
   ],
 } as const;

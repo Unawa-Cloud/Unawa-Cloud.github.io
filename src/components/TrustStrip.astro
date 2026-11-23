@@ -1,8 +1,11 @@
 ---
 import { trust } from '../data/content';
 
-/** The Supreme Court seal is the real asset; the partner logos below are still
- * wordmark placeholders, because no artwork for them exists in any repo. */
+/**
+ * Every mark here is real artwork exported from the frame at 3x. Each is sized
+ * by its own 1x dimensions rather than forced to a common height, because the
+ * frame places them at their natural sizes.
+ */
 ---
 
 <section class="trust" aria-label="Accreditation and partners">
@@ -13,16 +16,16 @@ import { trust } from '../data/content';
         <ul class="trust__items">
           {group.items.map((item) => (
             <li class={group.kind === 'seal' ? 'trust__seal' : 'trust__logo'}>
-              {group.kind === 'seal' && (
-                <img
-                  class="trust__sealmark"
-                  src="/badges/supreme-court.png"
-                  alt="Supreme Court of the Philippines"
-                  width="176"
-                  height="176"
-                />
-              )}
-              <span>{item.name}</span>
+              <img
+                class={group.kind === 'seal' ? 'trust__sealmark' : 'trust__logoimg'}
+                src={item.logo.src}
+                alt={group.kind === 'seal' ? 'Supreme Court of the Philippines' : item.name}
+                width={item.logo.width}
+                height={item.logo.height}
+                style={group.kind === 'seal' ? undefined : `width:${item.logo.width}px`}
+                loading="lazy"
+              />
+              {group.kind === 'seal' && <span>{item.name}</span>}
             </li>
           ))}
         </ul>
@@ -70,14 +73,15 @@ import { trust } from '../data/content';
     gap: 0.625rem 1rem;
   }
 
-  .trust__logo {
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: var(--ink-2);
-    opacity: 0.75;
+  .trust__logo { display: flex; align-items: center; }
+
+  /* Exported at 3x, so the intrinsic size is three times the display size. The
+     width comes from the data as an inline style; CSS must not set `width:auto`
+     here or the browser falls back to the intrinsic pixels and the row wraps. */
+  .trust__logoimg {
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
   }
 
   .trust__seal {

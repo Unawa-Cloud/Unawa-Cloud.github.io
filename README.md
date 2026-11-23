@@ -100,6 +100,7 @@ Figma; it was taken from repos already on the team's machines:
 | `brand/signsecure-mark.png`, `ucheck-mark.png`, `forma-mark.png` | `unawa-marketing/public/images/products/logos/`, cropped and recoloured |
 | `badges/supreme-court.png` | `notarizeit-frontend-v2/public/images/accredited-supreme-court.png` |
 | `hero/notary.jpg`, `participant-1.jpg`, `participant-2.jpg` | exported from the frame at 2x, converted to JPEG |
+| `logos/*.png` (6 partner marks) | exported from the frame at 3x |
 
 The NotarizeIT and UNAWA files are true vector and already use `#111143` and
 `#FFA000`.
@@ -141,10 +142,6 @@ date, since the seal is no longer on the page.
 
 ## What is still a placeholder
 
-- **Partner logos** (KMC, Startup Awards 2025, PH Startup Week, ADB, LES,
-  Investing in Women) — wordmarks in `components/TrustStrip.astro`. No artwork
-  for these exists in any repo; `unawa-marketing/public/images/partners/` holds
-  249-byte files whose only content is the text "Partner 1".
 - **Resource card thumbnails** — grey blocks, matching the placeholder state the
   Figma frame itself is in.
 
