@@ -144,18 +144,43 @@ date, since the seal is no longer on the page.
 
 - **Resource card thumbnails** — grey blocks, matching the placeholder state the
   Figma frame itself is in.
+- **The "Attach a File" control** is left out of the support form. The intake
+  route takes JSON only, and an unauthenticated public upload endpoint is a
+  liability. It needs a presigned S3 PUT issued after the ticket exists.
 
-## What has no backend
+## Forms
 
-GitHub Pages serves static files only. Both forms render as designed but their
-submit handlers call `preventDefault()` and show a short notice:
+GitHub Pages serves static files and cannot run a backend, so the support form
+posts cross-origin to a public intake route in `notarizeit-marketing-v2`
+(`app/api/support/route.ts`). That app stores nothing: it validates, emails
+support, and forgets. It was kept off `NOTARIZEIT-BETA-API` on purpose, which
+holds KYC and payment data and has no business sharing a deployment with a
+public form.
 
-- the support ticket form in `components/Support.astro`
-- the newsletter form in `components/SiteFooter.astro`
+Two build-time variables drive it, both public by design and inlined into the
+built JavaScript:
 
-Point them at a form endpoint (Formspree, a Worker, the UNAWA API) before
-launch. All nav and CTA links are in-page anchors; real destinations are not
-decided in the frame.
+| Variable | Purpose |
+| --- | --- |
+| `PUBLIC_SUPPORT_ENDPOINT` | the intake route's full URL |
+| `PUBLIC_TURNSTILE_SITE_KEY` | Cloudflare Turnstile site key |
+
+Set them under **Settings → Secrets and variables → Actions → Variables**;
+`deploy.yml` passes them to the build. With `PUBLIC_SUPPORT_ENDPOINT` unset the
+form stays inert and tells the visitor to email instead, rather than appearing
+to work. The route must also list this origin in its own
+`SUPPORT_ALLOWED_ORIGINS`.
+
+The form sends a honeypot field and a Turnstile token, and maps the route's
+error codes to readable messages. Turnstile tokens are single use, so the
+widget resets after every attempt.
+
+**The newsletter form in `components/SiteFooter.astro` is still inert.** It
+should go to whatever list tool marketing already uses rather than a generic
+endpoint, which is a decision nobody has made yet.
+
+All nav and CTA links are in-page anchors; real destinations are not decided in
+the frame.
 
 ## Known deviations from the frame
 
