@@ -10,23 +10,34 @@ Static output, deployed to GitHub Pages by GitHub Actions.
 
 ```bash
 npm install
-npm run dev      # http://localhost:4321/unawa-web-2026/
+npm run dev      # http://localhost:4321/
 npm run build    # static output in dist/
 npm run preview  # serve the built output
 ```
 
-The dev URL includes the `/unawa-web-2026` base path; the bare root will 404.
-
 ## Deployment
 
-`.github/workflows/deploy.yml` builds on every push to `main` and publishes with
-the official `withastro/action`. Before the first run, set **Settings → Pages →
-Source** to **GitHub Actions**.
+The repo is `Unawa-Cloud/Unawa-Cloud.github.io`, GitHub's organisation-site
+slot, served on the custom domain **www.unawa.asia**. There is no `base` path:
+the site lives at the domain root, and `unawa-cloud.github.io` redirects to it.
 
-The site serves at `https://unawa-cloud.github.io/unawa-web-2026/`, which is why
-`astro.config.mjs` sets `site: 'https://unawa-cloud.github.io'` and
-`base: '/unawa-web-2026'`. To move to a custom domain: set `site` to the domain,
-delete `base`, and add `public/CNAME` containing the domain.
+`.github/workflows/deploy.yml` builds on every push to `main` and publishes with
+the official `withastro/action`.
+
+First-run checklist:
+
+1. **Settings → Pages → Source** → **GitHub Actions**.
+2. **Settings → Pages → Custom domain** → `www.unawa.asia`.
+3. DNS: point `www` at `unawa-cloud.github.io.` with a CNAME record. Today it
+   resolves to the Azure host `52.237.90.43`, shared with the apex, so the apex
+   is unaffected by the move.
+4. Wait for the certificate to issue, then tick **Enforce HTTPS**.
+
+`public/CNAME` carries the domain so the Pages setting survives every deploy.
+Without that file the custom domain is cleared on the next publish.
+
+GitHub Pages needs the repo to be public, or the organisation on GitHub Team or
+above. Every other repo in `Unawa-Cloud` is private.
 
 `compressHTML: true` is set deliberately. Astro 7 changed the default to
 `'jsx'`, which strips whitespace between adjacent inline elements and would

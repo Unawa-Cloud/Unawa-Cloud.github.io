@@ -1,12 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// GitHub Pages project site: https://unawa-cloud.github.io/unawa-web-2026/
-// If this later moves to a custom domain, set `site` to that domain, drop
-// `base`, and add public/CNAME.
+// GitHub Pages organisation site: repo Unawa-Cloud/Unawa-Cloud.github.io,
+// served on the custom domain in public/CNAME. No `base` — the site lives at
+// the domain root, and unawa-cloud.github.io redirects to it.
 export default defineConfig({
-  site: 'https://unawa-cloud.github.io',
-  base: '/unawa-web-2026',
+  site: 'https://www.unawa.asia',
 
   // Astro 7 defaults compressHTML to 'jsx', which strips the whitespace
   // between adjacent inline elements. Keep the v6 behaviour.
