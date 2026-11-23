@@ -18,26 +18,35 @@ npm run preview  # serve the built output
 ## Deployment
 
 The repo is `Unawa-Cloud/Unawa-Cloud.github.io`, GitHub's organisation-site
-slot, served on the custom domain **www.unawa.asia**. There is no `base` path:
-the site lives at the domain root, and `unawa-cloud.github.io` redirects to it.
+slot. `.github/workflows/deploy.yml` builds on every push to `main` and
+publishes with the official `withastro/action`. The Pages source is set to
+**GitHub Actions**.
 
-`.github/workflows/deploy.yml` builds on every push to `main` and publishes with
-the official `withastro/action`.
+The repo is public because `Unawa-Cloud` is on the GitHub Free plan, which does
+not serve Pages from private repos. Making it private again takes the site down
+unless the organisation moves to Team or above.
 
-First-run checklist:
+### Current state: preview on github.io
 
-1. **Settings → Pages → Source** → **GitHub Actions**.
-2. **Settings → Pages → Custom domain** → `www.unawa.asia`.
-3. DNS: repoint the `www` CNAME at `unawa-cloud.github.io.`. It currently
+The site serves at **https://unawa-cloud.github.io/** while the redesign is
+reviewed. There is no `base` path, and `public/CNAME` is deliberately absent: if
+that file ships, GitHub attaches the custom domain on the next deploy and the
+github.io URL stops serving directly.
+
+`astro.config.mjs` still points `site` at the final domain, so canonical and
+Open Graph URLs name `www.unawa.asia` rather than the preview address. That also
+stops search engines treating the preview URL as the canonical one.
+
+### Going live on www.unawa.asia
+
+1. Recreate `public/CNAME` with one line: `www.unawa.asia`
+2. Repoint the `www` CNAME record at `unawa-cloud.github.io.`. It currently
    resolves to the same host as the apex, so the apex is unaffected.
-4. Wait for the certificate to issue, then tick **Enforce HTTPS**.
+3. Push. The deploy attaches the custom domain from the CNAME file.
+4. Once the certificate issues, tick **Enforce HTTPS** in **Settings → Pages**.
 
-`public/CNAME` carries the domain so the Pages setting survives every deploy.
-Without that file the custom domain is cleared on the next publish.
-
-`Unawa-Cloud` is on the GitHub Free plan, which does not serve Pages from a
-private repo, so this repo has to be public. The alternative is upgrading the
-organisation to Team.
+An organisation site's custom domain is inherited by every other Pages repo in
+the org, so a later repo publishes at `www.unawa.asia/<repo>` with no extra DNS.
 
 `compressHTML: true` is set deliberately. Astro 7 changed the default to
 `'jsx'`, which strips whitespace between adjacent inline elements and would
