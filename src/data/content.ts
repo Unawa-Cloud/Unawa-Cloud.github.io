@@ -44,8 +44,8 @@ export const trust = {
       kind: 'logos' as const,
       items: [
         { name: 'KMC' },
-        { name: 'Startup Awards 2025' },
-        { name: 'PH Startup Week' },
+        { name: 'Startup Awards 2023' },
+        { name: 'PH Startup Week 2020' },
         { name: 'ADB' },
         { name: 'LES' },
       ],
