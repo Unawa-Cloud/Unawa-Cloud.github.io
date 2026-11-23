@@ -97,22 +97,26 @@ Figma; it was taken from repos already on the team's machines:
 | `brand/notarizeit.svg`, `brand/notarizeit-white.svg` | `notarizeit-frontend-v2/public/images/` |
 | `brand/unawa-white.svg` | `notarizeit-frontend-v2/public/images/unawa-white.svg` |
 | `brand/unawa.svg` | the same file, `fill="white"` swapped for `#111143` |
-| `brand/signsecure.png`, `ucheck.png`, `forma.png` | `unawa-marketing/public/images/products/logos/` |
+| `brand/signsecure-mark.png`, `ucheck-mark.png`, `forma-mark.png` | `unawa-marketing/public/images/products/logos/`, cropped and recoloured |
 | `badges/dpo.png`, `supreme-court.png`, `ssl.png` | `notarizeit-frontend-v2/public/images/accredited-*.png` |
 
 The NotarizeIT and UNAWA files are true vector and already use `#111143` and
-`#FFA000`. The three product lockups are not: each is a high-resolution PNG
-(about 3000-4000px wide) that was base64-embedded inside an SVG declaring an
-18px canvas, so they were extracted to plain PNG. They are sharp at the sizes
-used here but will not scale like vector.
+`#FFA000`.
 
-Two things to settle with design:
+The three product marks needed work. Inspecting the frame, each is a vector
+path filled `#FFA000` (confirmed on the UCheck node, `4894-1662`), and the
+product name beside it is ordinary Inter, not part of a logo lockup. The only
+artwork on disk was in `unawa-marketing`, where the same shapes are coloured
+blue, green and teal from an earlier brand, and each was a high-resolution PNG
+base64-embedded inside an SVG declaring an 18px canvas. So each was extracted,
+cropped to the glyph alone, and recoloured to `#FFA000`. The shapes are the
+real ones; only the hue was changed. Replace them with proper exports when
+design can provide them.
 
-- The product marks are coloured blue, green and teal, while the frame appears
-  to draw them in tangerine alongside NotarizeIT. Whichever is current, these
-  are the only real marks that exist in any repo.
-- `badges/dpo.png` reads **VALIDITY PERIOD 06 November 2025** and may have
-  lapsed.
+`--tangerine` is `#ffa000` to match the frame exactly.
+
+One thing to settle with design: `badges/dpo.png` reads
+**VALIDITY PERIOD 06 November 2025** and may have lapsed.
 
 ## What is still a placeholder
 

@@ -61,7 +61,16 @@ import { products } from '../data/content';
     <ul class="products__grid">
       {products.items.map((item) => (
         <li class="pcard">
-          <img class="pcard__logo" src={item.logo} alt={item.name} width="500" height="102" />
+          <p class="pcard__name">
+            <img
+              class="pcard__mark"
+              src={item.mark.src}
+              alt=""
+              width={item.mark.width}
+              height={item.mark.height}
+            />
+            {item.name}
+          </p>
           <p class="pcard__body">{item.body}</p>
           <a class="btn btn--light pcard__cta" href={item.cta.href}>{item.cta.label}</a>
         </li>
@@ -231,9 +240,18 @@ import { products } from '../data/content';
     background: rgba(255, 255, 255, 0.04);
   }
 
-  /* Lockups are wide; fix the height and let width follow. align-self stops
-     the card's column flex from stretching them to the full card width. */
-  .pcard__logo { align-self: flex-start; height: 24px; width: auto; }
+  .pcard__name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  /* The frame sets the product name in Inter beside the mark alone, so only
+     the glyph is an asset. These are cropped from the real lockups and
+     recoloured to #FFA000; see the README. */
+  .pcard__mark { height: 20px; width: auto; flex: none; }
 
 
   .pcard__body {

@@ -80,7 +80,7 @@ export const products = {
   items: [
     {
       name: 'SignSecure',
-      logo: '/brand/signsecure.png',
+      mark: { src: '/brand/signsecure-mark.png', width: 528, height: 805 },
       body:
         'Help your team get documents signed faster with secure, auditable workflows ' +
         'designed to support legally valid electronic signatures under the ' +
@@ -89,7 +89,7 @@ export const products = {
     },
     {
       name: 'UCheck',
-      logo: '/brand/ucheck.png',
+      mark: { src: '/brand/ucheck-mark.png', width: 695, height: 799 },
       body:
         'Screen individuals and businesses against relevant watchlists and risk ' +
         'indicators to support AML compliance and regulatory requirements.',
@@ -97,7 +97,7 @@ export const products = {
     },
     {
       name: 'ForMA',
-      logo: '/brand/forma.png',
+      mark: { src: '/brand/forma-mark.png', width: 660, height: 741 },
       body:
         'Turn your document library into a structured, searchable workspace with ' +
         'centralized records and controlled access.',
