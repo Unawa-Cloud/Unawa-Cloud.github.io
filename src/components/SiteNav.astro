@@ -1,13 +1,11 @@
 ---
-import BrandMark from './BrandMark.astro';
 import { nav } from '../data/content';
 ---
 
 <header class="nav">
   <div class="container nav__inner">
     <a class="nav__brand" href="#top" aria-label="UNAWA home">
-      <BrandMark size={26} class="nav__mark" />
-      <span class="nav__wordmark">UNAWA<sup>&reg;</sup></span>
+      <img class="nav__logo" src="/brand/unawa.svg" alt="UNAWA" width="184" height="43" />
     </a>
 
     <nav class="nav__links" aria-label="Primary">
@@ -72,20 +70,10 @@ import { nav } from '../data/content';
     margin-right: auto;
   }
 
-  .nav__mark { color: var(--tangerine); }
 
-  .nav__wordmark {
-    font-size: 1.125rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    color: var(--ink);
-  }
+  /* Real UNAWA lockup; 26px keeps the mark the size the frame draws it. */
+  .nav__logo { height: 26px; width: auto; }
 
-  .nav__wordmark sup {
-    font-size: 0.5em;
-    top: -0.8em;
-    font-weight: 500;
-  }
 
   .nav__links ul {
     display: flex;

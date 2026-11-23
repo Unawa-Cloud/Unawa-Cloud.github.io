@@ -8,10 +8,13 @@ import { products } from '../data/content';
     <div class="products__lead">
       <div class="products__copy">
         <p class="eyebrow eyebrow--on-dark">{products.eyebrow}</p>
-        <p class="products__brand">
-          <Icon name="spark" size={22} class="products__brandmark" />
-          {products.brand}
-        </p>
+        <img
+          class="products__brandlogo"
+          src="/brand/notarizeit-white.svg"
+          alt={products.brand}
+          width="500"
+          height="82"
+        />
         <h2 class="display-2">{products.title}</h2>
         <p class="lede lede--on-dark products__body">{products.body}</p>
         <a class="btn btn--light products__cta" href={products.cta.href}>
@@ -58,10 +61,7 @@ import { products } from '../data/content';
     <ul class="products__grid">
       {products.items.map((item) => (
         <li class="pcard">
-          <p class="pcard__name">
-            <Icon name={item.icon} size={20} class="pcard__icon" />
-            {item.name}
-          </p>
+          <img class="pcard__logo" src={item.logo} alt={item.name} width="500" height="102" />
           <p class="pcard__body">{item.body}</p>
           <a class="btn btn--light pcard__cta" href={item.cta.href}>{item.cta.label}</a>
         </li>
@@ -78,17 +78,8 @@ import { products } from '../data/content';
     gap: clamp(2rem, 4vw, 3.5rem);
   }
 
-  .products__brand {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.375rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
+  .products__brandlogo { height: 30px; width: auto; margin-bottom: 0.875rem; }
 
-  .products__brandmark { color: var(--tangerine); }
 
   .products__body { margin-top: 1.25rem; }
   .products__cta { margin-top: 1.75rem; }
@@ -240,15 +231,10 @@ import { products } from '../data/content';
     background: rgba(255, 255, 255, 0.04);
   }
 
-  .pcard__name {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.25rem;
-    font-weight: 700;
-  }
+  /* Lockups are wide; fix the height and let width follow. align-self stops
+     the card's column flex from stretching them to the full card width. */
+  .pcard__logo { align-self: flex-start; height: 24px; width: auto; }
 
-  .pcard__icon { color: var(--tangerine); }
 
   .pcard__body {
     margin-top: 0.875rem;

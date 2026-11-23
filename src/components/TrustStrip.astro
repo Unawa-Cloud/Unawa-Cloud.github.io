@@ -1,8 +1,8 @@
 ---
-import Icon from './Icon.astro';
 import { trust } from '../data/content';
 
-/** Partner logos are wordmark placeholders until the real SVGs are exported. */
+/** The Supreme Court seal is the real asset; the partner logos below are still
+ * wordmark placeholders, because no artwork for them exists in any repo. */
 ---
 
 <section class="trust" aria-label="Accreditation and partners">
@@ -14,7 +14,13 @@ import { trust } from '../data/content';
           {group.items.map((item) => (
             <li class={group.kind === 'seal' ? 'trust__seal' : 'trust__logo'}>
               {group.kind === 'seal' && (
-                <span class="trust__sealmark"><Icon name="award" size={18} /></span>
+                <img
+                  class="trust__sealmark"
+                  src="/badges/supreme-court.png"
+                  alt="Supreme Court of the Philippines"
+                  width="176"
+                  height="176"
+                />
               )}
               <span>{item.name}</span>
             </li>
@@ -82,17 +88,7 @@ import { trust } from '../data/content';
     color: var(--muted-2);
   }
 
-  .trust__sealmark {
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 1.5px solid var(--line-2);
-    background: var(--white);
-    color: var(--blue);
-    flex: none;
-  }
+  .trust__sealmark { width: 28px; height: 28px; object-fit: contain; flex: none; }
 
   @media (max-width: 1023px) {
     .trust__inner { justify-content: flex-start; }

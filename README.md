@@ -87,19 +87,43 @@ text styles: Display Header 1 (70/70), Display Header 2 (50/120),
 Header (32/130), Subheader (25/140), Body Display (20/30), Body (16/22),
 Button Text (16/16), Eyebrow (12), Footnote (11/150).
 
+## Assets
+
+Real artwork lives in `public/brand/` and `public/badges/`. None of it came from
+Figma; it was taken from repos already on the team's machines:
+
+| File | Source |
+| --- | --- |
+| `brand/notarizeit.svg`, `brand/notarizeit-white.svg` | `notarizeit-frontend-v2/public/images/` |
+| `brand/unawa-white.svg` | `notarizeit-frontend-v2/public/images/unawa-white.svg` |
+| `brand/unawa.svg` | the same file, `fill="white"` swapped for `#111143` |
+| `brand/signsecure.png`, `ucheck.png`, `forma.png` | `unawa-marketing/public/images/products/logos/` |
+| `badges/dpo.png`, `supreme-court.png`, `ssl.png` | `notarizeit-frontend-v2/public/images/accredited-*.png` |
+
+The NotarizeIT and UNAWA files are true vector and already use `#111143` and
+`#FFA000`. The three product lockups are not: each is a high-resolution PNG
+(about 3000-4000px wide) that was base64-embedded inside an SVG declaring an
+18px canvas, so they were extracted to plain PNG. They are sharp at the sizes
+used here but will not scale like vector.
+
+Two things to settle with design:
+
+- The product marks are coloured blue, green and teal, while the frame appears
+  to draw them in tangerine alongside NotarizeIT. Whichever is current, these
+  are the only real marks that exist in any repo.
+- `badges/dpo.png` reads **VALIDITY PERIOD 06 November 2025** and may have
+  lapsed.
+
 ## What is still a placeholder
 
-None of the raster assets could be exported from Figma, so the following are
-stand-ins and need replacing before launch:
-
-- **UNAWA shield logomark** — redrawn in `components/BrandMark.astro`.
-- **Product marks** (NotarizeIT, SignSecure, UCheck, ForMA) — approximated as
-  inline SVG in `components/Icon.astro`.
+- **Partner logos** (KMC, Startup Awards 2025, PH Startup Week, ADB, LES,
+  Investing in Women) — wordmarks in `components/TrustStrip.astro`. No artwork
+  for these exists in any repo; `unawa-marketing/public/images/partners/` holds
+  249-byte files whose only content is the text "Partner 1".
 - **Hero collage photography** — the video feed and participant tiles are `.ph`
-  gradient blocks with a silhouette glyph.
-- **Partner logos** (KMC, Startup Awards, PH Startup Week, ADB, LES, Investing
-  in Women) and the **Supreme Court seal** — rendered as wordmarks in
-  `components/TrustStrip.astro` and `components/SiteFooter.astro`.
+  gradient blocks with a silhouette glyph. The only hero art on disk is
+  `unawa-marketing/public/images/hero/notarizeit-hero-kv.png`, which is the
+  older purple NotarizeIT key visual and does not fit this palette.
 - **Resource card thumbnails** — grey blocks, matching the placeholder state the
   Figma frame itself is in.
 

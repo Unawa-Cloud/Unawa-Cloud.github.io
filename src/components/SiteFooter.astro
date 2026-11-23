@@ -1,5 +1,4 @@
 ---
-import BrandMark from './BrandMark.astro';
 import Icon from './Icon.astro';
 import { footer } from '../data/content';
 
@@ -10,11 +9,9 @@ import { footer } from '../data/content';
   <div class="container footer__inner">
     <div class="footer__brandcol">
       <p class="footer__lockup">
-        <Icon name="spark" size={22} class="footer__spark" />
-        <span class="footer__product">NotarizeIT</span>
+        <img class="footer__productlogo" src="/brand/notarizeit.svg" alt="NotarizeIT" width="500" height="83" />
         <span class="footer__divider" aria-hidden="true"></span>
-        <BrandMark size={16} class="footer__shield" />
-        <span class="footer__parent">UNAWA</span>
+        <img class="footer__parentlogo" src="/brand/unawa.svg" alt="UNAWA" width="184" height="43" />
       </p>
 
       <address class="footer__address">
@@ -27,7 +24,13 @@ import { footer } from '../data/content';
       </p>
 
       <div class="footer__badges">
-        <span class="footer__seal" aria-hidden="true"><Icon name="award" size={20} /></span>
+        <img
+          class="footer__seal"
+          src="/badges/dpo.png"
+          alt="DPO/DPS registered with the National Privacy Commission"
+          width="186"
+          height="285"
+        />
         <span class="footer__badge"><Icon name="award" size={14} />{footer.badges[0]}</span>
         <span class="footer__badge"><Icon name="lock" size={14} />{footer.badges[1]}</span>
       </div>
@@ -92,13 +95,8 @@ import { footer } from '../data/content';
     gap: 0.5rem;
   }
 
-  .footer__spark { color: var(--tangerine); }
 
-  .footer__product {
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
+  .footer__productlogo { height: 22px; width: auto; }
 
   .footer__divider {
     width: 1px;
@@ -106,14 +104,8 @@ import { footer } from '../data/content';
     background: var(--line-2);
   }
 
-  .footer__shield { color: var(--tangerine); }
 
-  .footer__parent {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--ink-2);
-  }
+  .footer__parentlogo { height: 14px; width: auto; }
 
   .footer__address {
     display: grid;
@@ -146,16 +138,8 @@ import { footer } from '../data/content';
     margin-top: 1.75rem;
   }
 
-  .footer__seal {
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 56px;
-    border: 1.5px solid var(--line-2);
-    border-radius: 22px 22px 8px 8px;
-    background: var(--white);
-    color: var(--blue);
-  }
+  /* The DPO/DPS seal is a tall card, not a glyph. */
+  .footer__seal { width: auto; height: 58px; object-fit: contain; flex: none; }
 
   .footer__badge {
     display: inline-flex;

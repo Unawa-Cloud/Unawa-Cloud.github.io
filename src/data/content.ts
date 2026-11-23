@@ -80,7 +80,7 @@ export const products = {
   items: [
     {
       name: 'SignSecure',
-      icon: 'bolt' as const,
+      logo: '/brand/signsecure.png',
       body:
         'Help your team get documents signed faster with secure, auditable workflows ' +
         'designed to support legally valid electronic signatures under the ' +
@@ -89,7 +89,7 @@ export const products = {
     },
     {
       name: 'UCheck',
-      icon: 'check' as const,
+      logo: '/brand/ucheck.png',
       body:
         'Screen individuals and businesses against relevant watchlists and risk ' +
         'indicators to support AML compliance and regulatory requirements.',
@@ -97,7 +97,7 @@ export const products = {
     },
     {
       name: 'ForMA',
-      icon: 'diamond' as const,
+      logo: '/brand/forma.png',
       body:
         'Turn your document library into a structured, searchable workspace with ' +
         'centralized records and controlled access.',
