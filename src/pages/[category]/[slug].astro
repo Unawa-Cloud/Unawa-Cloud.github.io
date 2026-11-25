@@ -2,17 +2,19 @@
 import Base from '../../layouts/Base.astro';
 import SiteNav from '../../components/SiteNav.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
-import { articles, summarise } from '../../data/articles';
+import { articles } from '../../data/articles';
 
+// Every post keeps its original WordPress path, /<category>/<slug>/, so links
+// and search results that point at the old site still land on the right page.
 export function getStaticPaths() {
   return articles.map((article) => ({
-    params: { slug: article.slug },
+    params: { category: article.category, slug: article.slug },
     props: { article },
   }));
 }
 
 const { article } = Astro.props;
-const summary = summarise(article.body);
+const summary = article.excerpt;
 ---
 
 <Base title={`${article.title} | UNAWA`} description={summary}>
@@ -23,21 +25,21 @@ const summary = summarise(article.body);
       <nav class="article__crumbs" aria-label="Breadcrumb">
         <a href="/">Home</a>
         <span aria-hidden="true">/</span>
-        <a href="/#resources">Resources</a>
+        <a href="/resources/">Resources</a>
       </nav>
 
-      <p class="eyebrow">Electronic Notarization</p>
+      <p class="eyebrow">{article.categoryLabel}</p>
       <h1 class="article__title">{article.title}</h1>
       <p class="article__byline">
         <time datetime={article.datetime}>{article.date}</time>
         <span aria-hidden="true"> · </span>
-        UNAWA
+        {article.author}{article.role && `, ${article.role}`}
       </p>
 
       <img
         class="article__hero"
         src={article.image.src}
-        alt=""
+        alt={article.image.alt}
         width={article.image.width}
         height={article.image.height}
       />
@@ -45,7 +47,7 @@ const summary = summarise(article.body);
       <!-- Body is our own content, lifted from our own CMS, not user input. -->
       <div class="article__body" set:html={article.body} />
 
-      <a class="btn btn--outline article__back" href="/#resources">Back to resources</a>
+      <a class="btn btn--outline article__back" href="/resources/">Back to resources</a>
     </div>
   </main>
 
