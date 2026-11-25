@@ -11,7 +11,7 @@ import { support } from '../data/content';
  *   PUBLIC_SUPPORT_ENDPOINT     the route's full URL
  *   PUBLIC_TURNSTILE_SITE_KEY   Cloudflare Turnstile, public by design
  */
-const { fields } = support;
+const { fields, supportEmail } = support;
 const endpoint = import.meta.env.PUBLIC_SUPPORT_ENDPOINT;
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
@@ -82,12 +82,99 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 
       {turnstileSiteKey && (
         <>
-          <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark"></div>
+          {/*
+            Turnstile resolves these callbacks as globals, by name, so they
+            cannot live in the module script below: that one is deferred while
+            api.js is async and may well run first. They only record what
+            happened on the form and announce it; the module owns every line of
+            copy, so the two cannot drift.
+
+            Returning a non-falsy value from an error callback suppresses only
+            Turnstile's own console logging, not the error box it draws in the
+            widget, so the CSS hides that box once we have taken the message over.
+          */}
+          <script is:inline>
+            (function () {
+              // 200500 (iframe blocked) is retryable and retries every 8s
+              // forever, so a blocked challenges.cloudflare.com would never
+              // resolve on its own. Give up after the second attempt and say so.
+              var GIVE_UP_AFTER = 2;
+              var retries = 0;
+
+              function mark(state) {
+                var form = document.querySelector('[data-support-form]');
+                if (!form) return;
+                form.dataset.turnstile = state;
+                form.dispatchEvent(new CustomEvent('turnstile:state'));
+              }
+
+              // Codes the docs mark retryable. Everything else is ours to fix:
+              // a bad sitekey, or a hostname missing from Hostname Management.
+              function retryable(code) {
+                var c = String(code);
+                return (
+                  c.charAt(0) === '3' ||
+                  c.charAt(0) === '6' ||
+                  c === '110600' ||
+                  c === '110620' ||
+                  c === '200500'
+                );
+              }
+
+              window.unawaTurnstileOk = function () {
+                retries = 0;
+                mark('ok');
+              };
+
+              // The script tag's own onerror, not a Turnstile feature: it is the
+              // only signal when an extension blocks api.js outright, which the
+              // widget cannot report because it never loads.
+              window.unawaTurnstileBlocked = function () {
+                mark('blocked');
+              };
+
+              window.unawaTurnstileError = function (code) {
+                // 200100 is also non-retryable, but it is the visitor's clock
+                // or cache, not our configuration, and they can fix it.
+                if (String(code) === '200100') {
+                  mark('clock');
+                  return true;
+                }
+                if (!retryable(code)) {
+                  console.warn('Turnstile is misconfigured for this hostname', code);
+                  mark('config');
+                  return true;
+                }
+                if (++retries >= GIVE_UP_AFTER) mark('unavailable');
+                return true;
+              };
+
+              window.unawaTurnstileExpired = function () {
+                mark('expired');
+                if (window.turnstile) window.turnstile.reset();
+              };
+
+              window.unawaTurnstileTimeout = function () {
+                mark('expired');
+              };
+            })();
+          </script>
+
+          <div
+            class="cf-turnstile"
+            data-sitekey={turnstileSiteKey}
+            data-theme="dark"
+            data-callback="unawaTurnstileOk"
+            data-error-callback="unawaTurnstileError"
+            data-expired-callback="unawaTurnstileExpired"
+            data-timeout-callback="unawaTurnstileTimeout"></div>
+
           <script
             is:inline
             async
             defer
             src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            onerror="unawaTurnstileBlocked()"
           ></script>
         </>
       )}
@@ -97,6 +184,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
       </div>
 
       <p class="support__status" data-support-status role="status" hidden></p>
+      <p class="support__fallback" data-support-fallback hidden>
+        Or email <a href={`mailto:${supportEmail}`}>{supportEmail}</a> and we will
+        pick it up from there.
+      </p>
     </form>
   </div>
 </section>
@@ -179,9 +270,16 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
     font-size: var(--t-small);
   }
 
-  .support__submit:hover {
+  .support__submit:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.12);
     border-color: var(--malaya);
+  }
+
+  /* The button now stays disabled while the human check is unusable, not just
+     for the second a send takes, so it has to look it. */
+  .support__submit:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
   }
 
   .support__status {
@@ -193,6 +291,23 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
   .support__status[data-tone='error'] { color: #ffb4a8; }
   .support__status[data-tone='ok'] { color: var(--malaya); }
 
+  .support__fallback {
+    margin: 0;
+    font-size: var(--t-small);
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .support__fallback a { color: var(--malaya); }
+
+  /* Turnstile draws its own error box inside the widget and offers no way to
+     suppress it, so the box goes when our own message takes its place. */
+  .support__form[data-turnstile='blocked'] .cf-turnstile,
+  .support__form[data-turnstile='config'] .cf-turnstile,
+  .support__form[data-turnstile='unavailable'] .cf-turnstile,
+  .support__form[data-turnstile='clock'] .cf-turnstile {
+    display: none;
+  }
+
   @media (max-width: 899px) {
     .support__inner { grid-template-columns: minmax(0, 1fr); }
     .field-row { grid-template-columns: minmax(0, 1fr); }
@@ -202,7 +317,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 <script>
   const form = document.querySelector<HTMLFormElement>('[data-support-form]');
   const status = document.querySelector<HTMLElement>('[data-support-status]');
+  const fallback = form?.querySelector<HTMLElement>('[data-support-fallback]');
   const submit = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const widget = form?.querySelector<HTMLElement>('.cf-turnstile');
   const endpoint = import.meta.env.PUBLIC_SUPPORT_ENDPOINT;
 
   const MESSAGES: Record<string, string> = {
@@ -212,24 +329,99 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
     too_large: 'That message is too long. Please shorten it and try again.',
   };
 
-  function show(text: string, tone: 'ok' | 'error') {
+  /**
+   * States the inline Turnstile callbacks record on the form. The three fatal
+   * ones are shown the moment they happen, because the visitor cannot get past
+   * them and should not have to discover that by submitting.
+   */
+  const TURNSTILE_MESSAGES: Record<string, string> = {
+    blocked:
+      'The human check could not load. An extension or your network is blocking ' +
+      'challenges.cloudflare.com.',
+    config: 'The human check is not set up correctly on our side. Sorry about that.',
+    unavailable: 'The human check is not responding. Try reloading the page.',
+    clock:
+      'Your device clock looks wrong, which blocks the human check. Correct the ' +
+      'date and time, then reload the page.',
+    expired: 'The human check expired. Complete it again, then submit.',
+    pending: 'Still checking that you are human. Give it a moment, then submit again.',
+  };
+
+  const FATAL = new Set(['blocked', 'config', 'unavailable', 'clock']);
+
+  let sending = false;
+  // Set while the status line is showing a Turnstile message, so a recovery can
+  // clear it without wiping a success or a server error that came from elsewhere.
+  let showingTurnstile = false;
+
+  function show(text: string, tone: 'ok' | 'error', withFallback = false) {
     if (!status) return;
     status.hidden = false;
     status.textContent = text;
     status.dataset.tone = tone;
+    if (fallback) fallback.hidden = !withFallback;
   }
+
+  function showTurnstile(state: string, withFallback: boolean) {
+    show(TURNSTILE_MESSAGES[state], 'error', withFallback);
+    showingTurnstile = true;
+  }
+
+  function renderTurnstileState() {
+    const state = form?.dataset.turnstile ?? '';
+    if (FATAL.has(state)) {
+      // Submitting cannot succeed without a token, so the button says so rather
+      // than letting the visitor earn a 403 for it.
+      showTurnstile(state, true);
+      submit?.setAttribute('disabled', '');
+      return;
+    }
+
+    // A token arrived after all, so undo the lockout and take down whatever the
+    // failure said. Leaving it up tells the visitor the form is broken while the
+    // submit button sits there working.
+    if (!sending) submit?.removeAttribute('disabled');
+    if (showingTurnstile && status) {
+      status.hidden = true;
+      status.textContent = '';
+      if (fallback) fallback.hidden = true;
+      showingTurnstile = false;
+    }
+  }
+
+  // This module is deferred and the callbacks are not, so a state may already
+  // be recorded by the time the listener attaches. Read it once on startup.
+  form?.addEventListener('turnstile:state', renderTurnstileState);
+  renderTurnstileState();
 
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     if (!endpoint) {
-      show('This form is not connected yet. Email hello@unawa.asia in the meantime.', 'error');
+      show('This form is not connected yet.', 'error', true);
       return;
     }
+
+    const turnstileState = form.dataset.turnstile ?? '';
+    if (FATAL.has(turnstileState)) {
+      renderTurnstileState();
+      return;
+    }
+
 
     const data = new FormData(form);
     const turnstileToken = String(data.get('cf-turnstile-response') ?? '');
 
+    // No token yet, with a widget on the page, means the check has not finished.
+    // Posting anyway earns a 403 telling the visitor to reload, which does not
+    // help; waiting a moment does.
+    if (widget && !turnstileToken) {
+      showTurnstile(turnstileState === 'expired' ? 'expired' : 'pending', false);
+      return;
+    }
+
+    sending = true;
+    showingTurnstile = false;
     submit?.setAttribute('disabled', '');
     show('Sending…', 'ok');
 
@@ -254,11 +446,16 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
       }
 
       const body = await response.json().catch(() => ({}));
-      show(MESSAGES[body?.error] ?? 'Something went wrong. Please try again shortly.', 'error');
+      const message = MESSAGES[body?.error];
+      // Validation and length the visitor can fix; a rate limit lifts on its
+      // own. Anything else is a dead end, so offer the mailto alongside it.
+      const stuck = !message || body?.error === 'challenge_failed';
+      show(message ?? 'Something went wrong. Please try again shortly.', 'error', stuck);
     } catch {
       // Network failure, or the browser blocked the request before it left.
-      show('We could not reach the server. Check your connection and try again.', 'error');
+      show('We could not reach the server. Check your connection and try again.', 'error', true);
     } finally {
+      sending = false;
       submit?.removeAttribute('disabled');
       // Turnstile tokens are single use, so the widget has to be reset.
       (window as unknown as { turnstile?: { reset: () => void } }).turnstile?.reset();

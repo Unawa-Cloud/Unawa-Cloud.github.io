@@ -219,6 +219,10 @@ export const support = {
   },
   attach: 'Attach a File',
   submit: 'Submit',
+  // Shown as a mailto whenever the form itself cannot carry the message: the
+  // human check is blocked or misconfigured, the endpoint is unset, or the
+  // intake route fails. A dead form with no way through is worse than no form.
+  supportEmail: 'hello@unawa.asia',
 } as const;
 
 export const resources = {
