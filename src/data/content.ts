@@ -11,8 +11,11 @@ export const nav = {
     { label: 'Resources', href: '/#resources' },
     { label: 'Get Support', href: '/#support' },
   ],
-  secondaryCta: { label: 'Verify document', href: '/#verify' },
-  primaryCta: { label: 'Book a demo', href: '/#teams' },
+  // Both match notarizeit-marketing-v2's own nav: APP.verify and
+  // FORMS.enquiry in its content/siteContent.ts. /#verify was a dead
+  // anchor here, there is no verify section on this page.
+  secondaryCta: { label: 'Verify document', href: 'https://app.notarizeit.ph/verify-document' },
+  primaryCta: { label: 'Book a demo', href: 'https://form.jotform.com/262781299294472' },
 } as const;
 
 export const hero = {

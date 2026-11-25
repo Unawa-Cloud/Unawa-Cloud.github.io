@@ -1,5 +1,11 @@
 ---
 import { nav } from '../data/content';
+
+// The CTAs leave the site for the product and the enquiry form, so they
+// open in a new tab, matching notarizeit-marketing-v2's CtaButton. Derived
+// from the href so an in-page target would not wrongly inherit it.
+const offsite = (href: string) =>
+  /^https?:\/\//.test(href) ? { target: '_blank', rel: 'noopener noreferrer' } : {};
 ---
 
 <header class="nav">
@@ -17,8 +23,8 @@ import { nav } from '../data/content';
     </nav>
 
     <div class="nav__actions">
-      <a class="btn btn--outline" href={nav.secondaryCta.href}>{nav.secondaryCta.label}</a>
-      <a class="btn btn--dark" href={nav.primaryCta.href}>{nav.primaryCta.label}</a>
+      <a class="btn btn--outline" href={nav.secondaryCta.href} {...offsite(nav.secondaryCta.href)}>{nav.secondaryCta.label}</a>
+      <a class="btn btn--dark" href={nav.primaryCta.href} {...offsite(nav.primaryCta.href)}>{nav.primaryCta.label}</a>
     </div>
 
     <button
@@ -40,8 +46,8 @@ import { nav } from '../data/content';
         ))}
       </ul>
       <div class="nav__drawer-actions">
-        <a class="btn btn--outline" href={nav.secondaryCta.href}>{nav.secondaryCta.label}</a>
-        <a class="btn btn--dark" href={nav.primaryCta.href}>{nav.primaryCta.label}</a>
+        <a class="btn btn--outline" href={nav.secondaryCta.href} {...offsite(nav.secondaryCta.href)}>{nav.secondaryCta.label}</a>
+        <a class="btn btn--dark" href={nav.primaryCta.href} {...offsite(nav.primaryCta.href)}>{nav.primaryCta.label}</a>
       </div>
     </div>
   </div>

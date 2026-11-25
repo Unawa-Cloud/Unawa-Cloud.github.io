@@ -49,6 +49,11 @@ import { footer } from '../data/content';
           required
           placeholder={footer.newsletter.placeholder}
         />
+        <!-- Honeypot. Hidden from people and assistive tech, irresistible to bots. -->
+        <div class="hp" aria-hidden="true">
+          <label for="newsletter-company">Company</label>
+          <input id="newsletter-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        </div>
         <button class="btn btn--dark" type="submit">{footer.newsletter.submit}</button>
       </form>
       <p class="footer__formstatus" data-newsletter-status role="status" hidden></p>
@@ -137,11 +142,22 @@ import { footer } from '../data/content';
     font-size: var(--t-small);
   }
 
+  .hp {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   .footer__formstatus {
     margin-top: 0.5rem;
     font-size: var(--t-small);
     color: var(--blue);
   }
+
+  .footer__formstatus[data-tone='error'] { color: #b4231b; }
 
   .sr-only {
     position: absolute;
@@ -162,13 +178,60 @@ import { footer } from '../data/content';
 <script>
   const form = document.querySelector<HTMLFormElement>('[data-newsletter-form]');
   const status = document.querySelector<HTMLElement>('[data-newsletter-status]');
+  const submit = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const endpoint = import.meta.env.PUBLIC_SUBSCRIBE_ENDPOINT;
 
-  form?.addEventListener('submit', (event) => {
-    // No backend on GitHub Pages — point this at a real list provider.
+  const MESSAGES: Record<string, string> = {
+    rate_limited: 'That is a few too many tries. Please come back in a little while.',
+    validation: 'That address does not look right. Please check it and try again.',
+    too_large: 'That address is too long.',
+  };
+
+  function show(text: string, tone: 'ok' | 'error') {
+    if (!status) return;
+    status.hidden = false;
+    status.textContent = text;
+    status.dataset.tone = tone;
+  }
+
+  form?.addEventListener('submit', async (event) => {
     event.preventDefault();
-    if (status) {
-      status.hidden = false;
-      status.textContent = 'Subscriptions are not connected to a backend yet.';
+
+    if (!endpoint) {
+      show('Subscriptions are not available right now. Email hello@unawa.asia to be added.', 'error');
+      return;
+    }
+
+    const data = new FormData(form);
+
+    submit?.setAttribute('disabled', '');
+    show('Subscribing…', 'ok');
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: String(data.get('email') ?? ''),
+          company: String(data.get('company') ?? ''),
+        }),
+      });
+
+      if (response.ok) {
+        form.reset();
+        // The list is double opt-in, so nothing happens until they confirm.
+        // Saying so here saves them wondering why no updates arrive.
+        show('Almost there. Check your inbox and confirm the subscription.', 'ok');
+        return;
+      }
+
+      const body = await response.json().catch(() => ({}));
+      show(MESSAGES[body?.error] ?? 'We could not subscribe you just now. Please try again shortly.', 'error');
+    } catch {
+      // Network failure, or the browser blocked the request before it left.
+      show('We could not reach the server. Check your connection and try again.', 'error');
+    } finally {
+      submit?.removeAttribute('disabled');
     }
   });
 </script>

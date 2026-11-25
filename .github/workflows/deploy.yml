@@ -23,11 +23,13 @@ jobs:
       - name: Install, build, and upload your site
         uses: withastro/action@v6
         env:
-          # Repository variables, not secrets: both are public by design and get
-          # inlined into the built JavaScript. Settings > Secrets and variables >
-          # Actions > Variables. Unset leaves the support form inert.
+          # Repository variables, not secrets: all three are public by design
+          # and get inlined into the built JavaScript. Settings > Secrets and
+          # variables > Actions > Variables. An unset endpoint leaves its form
+          # inert, saying so to the visitor rather than failing silently.
           PUBLIC_SUPPORT_ENDPOINT: ${{ vars.PUBLIC_SUPPORT_ENDPOINT }}
           PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
+          PUBLIC_SUBSCRIBE_ENDPOINT: ${{ vars.PUBLIC_SUBSCRIBE_ENDPOINT }}
 
   deploy:
     needs: build
