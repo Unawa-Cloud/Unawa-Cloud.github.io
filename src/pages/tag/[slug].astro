@@ -1,0 +1,23 @@
+---
+import Archive from '../../layouts/Archive.astro';
+import { tags, articlesWithTag } from '../../data/articles';
+
+// All 59 tag archives the old sitemap listed. Most hold one or two articles,
+// which makes for thin pages, but they are indexed and would otherwise 404.
+export function getStaticPaths() {
+  return tags.map((t) => ({
+    params: { slug: t.slug },
+    props: { tag: t },
+  }));
+}
+
+const { tag } = Astro.props;
+const articles = articlesWithTag(tag.slug);
+---
+
+<Archive
+  eyebrow="Tag"
+  title={tag.label}
+  description={`UNAWA articles tagged ${tag.label}.`}
+  articles={articles}
+/>

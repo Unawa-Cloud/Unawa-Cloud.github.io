@@ -1,0 +1,85 @@
+---
+// The card grid shared by /resources/, /category/<slug>/ and /tag/<slug>/.
+// `filterable` adds the data-category hook the resources page filters on; the
+// archive pages are already a single topic and do not need it.
+import type { Article } from '../data/articles';
+import { articleHref } from '../data/articles';
+
+interface Props {
+  articles: Article[];
+  filterable?: boolean;
+}
+
+const { articles, filterable = false } = Astro.props;
+---
+
+<ul class="grid">
+  {articles.map((a) => (
+    <li class="card" data-category={filterable ? a.category : undefined}>
+      <a class="card__link" href={articleHref(a)}>
+        <img
+          class="card__img"
+          src={a.image.src}
+          alt={a.image.alt}
+          width={a.image.width}
+          height={a.image.height}
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="card__cat">{a.categoryLabel}</span>
+        <h2 class="card__title">{a.title}</h2>
+        <time class="card__date" datetime={a.datetime}>{a.date}</time>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem 1.75rem;
+    margin-top: 1rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .card[hidden] { display: none; }
+
+  .card__link { display: block; color: inherit; }
+
+  .card__img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    background: var(--malumanay, #eef4fc);
+  }
+
+  .card__cat {
+    display: block;
+    margin-top: 0.9rem;
+    font-size: var(--t-small);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+
+  .card__title {
+    margin-top: 0.4rem;
+    font-size: var(--t-body-lg);
+    line-height: 1.35;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .card__link:hover .card__title { color: var(--blue); }
+
+  .card__date {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: var(--t-small);
+    color: var(--muted-2);
+  }
+</style>

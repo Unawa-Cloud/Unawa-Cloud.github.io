@@ -22,11 +22,26 @@ export default defineConfig({
   redirects: {
     // Published twice on WordPress, as a post under its category and as a
     // top-level page. The category URL matches every other article, so it wins.
-    // Both spellings: WordPress served the trailing-slash form, and the dev
-    // server matches keys literally even though the build emits a directory.
     '/how-to-register-your-pawnshop-with-the-amlc-and-why-you-cant-afford-to-delay':
       '/aml-compliance/how-to-register-your-pawnshop-with-the-amlc-and-why-you-cant-afford-to-delay-2/',
-    '/how-to-register-your-pawnshop-with-the-amlc-and-why-you-cant-afford-to-delay/':
-      '/aml-compliance/how-to-register-your-pawnshop-with-the-amlc-and-why-you-cant-afford-to-delay-2/',
+
+    // The old author archives. These were WordPress accounts, not bylines
+    // anyone would look for, so they go to the homepage rather than anywhere
+    // pretending to be an author page.
+    '/author/drewpasaporte': '/',
+    '/author/it-odoounawa-asia': '/',
+    '/author/msandico': '/',
+
+    // Pages the old site served that have no equivalent here.
+    // /products/ was an empty page on the default template; the real product
+    // content is a section of the homepage.
+    '/products': '/#products',
+    // WordPress's demo page, which should never have been indexed.
+    '/sample-page': '/',
+    // An empty page on a signin.php template. The actual sign-in is the app.
+    '/sign-in': 'https://app.notarizeit.ph/sign-in',
+    // A MailPoet signup form for a CPPI townhall attendance certificate. The
+    // form cannot come across, so this holds the URL rather than 404ing it.
+    '/cppi-attendance-certificate': '/',
   },
 });

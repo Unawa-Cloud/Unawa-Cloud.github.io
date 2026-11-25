@@ -1,0 +1,79 @@
+---
+// Shell for the /category/<slug>/ and /tag/<slug>/ archives the old WordPress
+// site had indexed. Both are the same page with a different heading and a
+// different slice of articles.
+import Base from './Base.astro';
+import SiteNav from '../components/SiteNav.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import ArticleGrid from '../components/ArticleGrid.astro';
+import type { Article } from '../data/articles';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  description: string;
+  articles: Article[];
+}
+
+const { eyebrow, title, description, articles } = Astro.props;
+const count = articles.length;
+---
+
+<Base title={`${title} | UNAWA`} description={description}>
+  <SiteNav />
+
+  <main id="main-content" class="archive">
+    <div class="container">
+      <nav class="archive__crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/resources/">Resources</a>
+      </nav>
+
+      <p class="eyebrow">{eyebrow}</p>
+      <h1 class="archive__title">{title}</h1>
+      <p class="archive__count">
+        {count} {count === 1 ? 'article' : 'articles'}
+      </p>
+
+      <ArticleGrid articles={articles} />
+
+      <a class="btn btn--outline archive__all" href="/resources/">All articles</a>
+    </div>
+  </main>
+
+  <SiteFooter />
+</Base>
+
+<style>
+  .archive { padding-block: clamp(2rem, 1rem + 4vw, 3.5rem) clamp(3rem, 2rem + 5vw, 5rem); }
+
+  .archive__crumbs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.75rem;
+    font-size: var(--t-small);
+    color: var(--muted);
+  }
+
+  .archive__crumbs a { color: var(--muted); }
+  .archive__crumbs a:hover { color: var(--blue); }
+
+  .archive__title {
+    margin-top: 0.75rem;
+    font-size: var(--t-display-2);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .archive__count {
+    margin-top: 0.75rem;
+    margin-bottom: 1.5rem;
+    font-size: var(--t-small);
+    color: var(--muted-2);
+  }
+
+  .archive__all { margin-top: 3rem; }
+</style>

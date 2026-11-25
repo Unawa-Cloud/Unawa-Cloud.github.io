@@ -1,0 +1,24 @@
+---
+import Archive from '../../layouts/Archive.astro';
+import { categories, articlesInCategory } from '../../data/articles';
+
+// /category/<slug>/ is the path WordPress used, and all ten are indexed.
+// Articles themselves live at /<category>/<slug>/, which is a different shape,
+// so the two do not collide.
+export function getStaticPaths() {
+  return categories.map((c) => ({
+    params: { slug: c.slug },
+    props: { category: c },
+  }));
+}
+
+const { category } = Astro.props;
+const articles = articlesInCategory(category.slug);
+---
+
+<Archive
+  eyebrow="Topic"
+  title={category.label}
+  description={`UNAWA articles on ${category.label.toLowerCase()}.`}
+  articles={articles}
+/>
