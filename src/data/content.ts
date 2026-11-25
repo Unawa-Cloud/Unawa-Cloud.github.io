@@ -221,21 +221,27 @@ export const support = {
 export const resources = {
   eyebrow: 'Resources',
   title: 'Tools and insights for your team',
+  // Live posts on the WordPress site at unawa.asia. Titles and dates come from
+  // its REST API, not the page markup, and the thumbnails are local copies of
+  // each post's featured image so the cards survive that site moving.
   items: [
     {
-      title: 'The skills you need to thrive in legal tech',
-      date: 'March 12, 2026',
-      href: '#article-1',
+      title: 'Why It Matters to Notarize',
+      date: 'October 7, 2025',
+      href: 'https://unawa.asia/electronic-notarization/why-it-matters-to-notarize/',
+      image: { src: '/resources/notarize.jpg', width: 740, height: 416 },
     },
     {
-      title: 'The skills you need to thrive in legal tech',
-      date: 'March 12, 2026',
-      href: '#article-2',
+      title: 'How to become an Electronic Notary Public',
+      date: 'August 7, 2026',
+      href: 'https://unawa.asia/electronic-notarization/how-to-become-an-enp/',
+      image: { src: '/resources/enp.jpg', width: 740, height: 416 },
     },
     {
-      title: 'The skills you need to thrive in legal tech',
-      date: 'March 12, 2026',
-      href: '#article-3',
+      title: 'NotarizeIT is now a Supreme Court-accredited Electronic Notarization Facility',
+      date: 'August 6, 2026',
+      href: 'https://unawa.asia/electronic-notarization/notarizeit-is-now-a-supreme-court-accredited-electronic-notarial-facility/',
+      image: { src: '/resources/accredited.jpg', width: 740, height: 416 },
     },
   ],
   cta: 'Read more',

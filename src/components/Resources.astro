@@ -1,8 +1,5 @@
 ---
-import Icon from './Icon.astro';
 import { resources } from '../data/content';
-
-/** Card imagery is the Figma placeholder block; swap for real thumbnails. */
 ---
 
 <section class="resources section" id="resources">
@@ -13,9 +10,15 @@ import { resources } from '../data/content';
     <ul class="resources__grid">
       {resources.items.map((item) => (
         <li class="rcard">
-          <div class="rcard__media" aria-hidden="true">
-            <Icon name="image" size={44} />
-          </div>
+          <a class="rcard__media" href={item.href} tabindex="-1" aria-hidden="true">
+            <img
+              src={item.image.src}
+              alt=""
+              width={item.image.width}
+              height={item.image.height}
+              loading="lazy"
+            />
+          </a>
           <div class="rcard__body">
             <h3 class="rcard__title">{item.title}</h3>
             <p class="rcard__date">{item.date}</p>
@@ -52,11 +55,17 @@ import { resources } from '../data/content';
   }
 
   .rcard__media {
-    display: grid;
-    place-items: center;
+    display: block;
     aspect-ratio: 16 / 9;
     background: #e3e6ec;
-    color: #b3bac8;
+  }
+
+  /* The thumbnails are 16:9 already, so cover only guards a future odd one. */
+  .rcard__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .rcard__body {
