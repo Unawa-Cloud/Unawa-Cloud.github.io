@@ -75,7 +75,7 @@ export const products = {
   body:
     'Give clients a simpler way to complete eligible notarizations remotely or in ' +
     'person, through a Supreme Court-accredited Electronic Notarization Facility.',
-  cta: { label: 'NotarizeIT now', href: '#notarizeit' },
+  cta: { label: 'NotarizeIT now', href: 'https://notarizeit.ph/' },
   doc: {
     reference: '#NIF-2026-0294',
     checkLabel: 'Liveness + ID · matched',
@@ -95,7 +95,7 @@ export const products = {
         'Help your team get documents signed faster with secure, auditable workflows ' +
         'designed to support legally valid electronic signatures under the ' +
         'E-Commerce Act (RA 8792).',
-      cta: { label: 'Learn more', href: '#signsecure' },
+      cta: { label: 'Learn more', href: 'https://signsecure.io' },
     },
     {
       name: 'UCheck',
@@ -103,7 +103,7 @@ export const products = {
       body:
         'Screen individuals and businesses against relevant watchlists and risk ' +
         'indicators to support AML compliance and regulatory requirements.',
-      cta: { label: 'Learn more', href: '#ucheck' },
+      cta: { label: 'Learn more', href: 'https://ucheck.unawa.io/' },
     },
     {
       name: 'ForMA',
@@ -111,7 +111,7 @@ export const products = {
       body:
         'Turn your document library into a structured, searchable workspace with ' +
         'centralized records and controlled access.',
-      cta: { label: 'Learn more', href: '#forma' },
+      cta: { label: 'Learn more', href: 'https://forma-ws.unawa.io/' },
     },
   ],
 } as const;
@@ -233,24 +233,24 @@ export const footer = {
   ],
   newsletter: {
     title: 'Stay in the loop',
-    body: 'Updates on e-notarization in the Philippines — no spam.',
+    body: 'Updates on e-notarization in the Philippines. No spam.',
     placeholder: 'you@example.com',
     submit: 'Subscribe',
   },
   social: [
-    { name: 'Facebook', href: '#facebook', icon: 'facebook' as const },
-    { name: 'Instagram', href: '#instagram', icon: 'instagram' as const },
-    { name: 'LinkedIn', href: '#linkedin', icon: 'linkedin' as const },
+    { name: 'Facebook', href: 'https://www.facebook.com/unawa.asia', icon: 'facebook' as const },
+    { name: 'Instagram', href: 'https://www.instagram.com/unawa.asia/', icon: 'instagram' as const },
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/company/unawa/', icon: 'linkedin' as const },
+    { name: 'YouTube', href: 'https://youtube.com/@unawa_', icon: 'youtube' as const },
   ],
   legalLinks: [
-    { label: 'Privacy Policy', href: '#privacy' },
-    { label: 'Privacy Preferences', href: '#privacy-preferences' },
-    { label: 'Terms of Service', href: '#terms' },
+    { label: 'Privacy Policy', href: '/privacy-policy/' },
+    { label: 'Terms of Service', href: '/terms-conditions/' },
   ],
 } as const;
 
 export const meta = {
-  title: 'UNAWA — Move your business forward',
+  title: 'UNAWA: Move your business forward',
   description:
     'UNAWA builds practical, legal-first technology for Philippine organizations: ' +
     'e-notarization, e-signatures, AML screening, and document management.',

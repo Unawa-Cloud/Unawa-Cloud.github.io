@@ -22,7 +22,7 @@ import { footer } from '../data/content';
       <ul class="footer__social">
         {footer.social.map((item) => (
           <li>
-            <a href={item.href} aria-label={item.name}>
+            <a href={item.href} aria-label={item.name} target="_blank" rel="noopener noreferrer">
               <Icon name={item.icon} size={18} />
             </a>
           </li>

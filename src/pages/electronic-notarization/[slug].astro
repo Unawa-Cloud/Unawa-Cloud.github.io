@@ -15,7 +15,7 @@ const { article } = Astro.props;
 const summary = summarise(article.body);
 ---
 
-<Base title={`${article.title} — UNAWA`} description={summary}>
+<Base title={`${article.title} | UNAWA`} description={summary}>
   <SiteNav />
 
   <main id="main-content" class="article">
