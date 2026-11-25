@@ -6,13 +6,13 @@
 
 export const nav = {
   links: [
-    { label: 'Products', href: '#products' },
-    { label: 'About', href: '#approach' },
-    { label: 'Resources', href: '#resources' },
-    { label: 'Get Support', href: '#support' },
+    { label: 'Products', href: '/#products' },
+    { label: 'About', href: '/#approach' },
+    { label: 'Resources', href: '/#resources' },
+    { label: 'Get Support', href: '/#support' },
   ],
-  secondaryCta: { label: 'Verify document', href: '#verify' },
-  primaryCta: { label: 'Book a demo', href: '#teams' },
+  secondaryCta: { label: 'Verify document', href: '/#verify' },
+  primaryCta: { label: 'Book a demo', href: '/#teams' },
 } as const;
 
 export const hero = {
@@ -21,7 +21,7 @@ export const hero = {
   body:
     'We build practical technology that helps organizations simplify workflows, ' +
     'meet compliance needs, and work more efficiently.',
-  cta: { label: 'Explore our products', href: '#products' },
+  cta: { label: 'Explore our products', href: '/#products' },
   session: {
     windowTitle: 'Live notarization session',
     liveLabel: 'Live',
@@ -186,7 +186,7 @@ export const teams = {
   body:
     'Schedule a discovery session to discuss your requirements, document types, ' +
     'and current workflows.',
-  cta: { label: 'Talk to us', href: '#support' },
+  cta: { label: 'Talk to us', href: '/#support' },
 } as const;
 
 export const support = {
@@ -221,30 +221,9 @@ export const support = {
 export const resources = {
   eyebrow: 'Resources',
   title: 'Tools and insights for your team',
-  // Live posts on the WordPress site at unawa.asia. Titles and dates come from
-  // its REST API, not the page markup, and the thumbnails are local copies of
-  // each post's featured image so the cards survive that site moving.
-  items: [
-    {
-      title: 'Why It Matters to Notarize',
-      date: 'October 7, 2025',
-      href: 'https://unawa.asia/electronic-notarization/why-it-matters-to-notarize/',
-      image: { src: '/resources/notarize.jpg', width: 740, height: 416 },
-    },
-    {
-      title: 'How to become an Electronic Notary Public',
-      date: 'August 7, 2026',
-      href: 'https://unawa.asia/electronic-notarization/how-to-become-an-enp/',
-      image: { src: '/resources/enp.jpg', width: 740, height: 416 },
-    },
-    {
-      title: 'NotarizeIT is now a Supreme Court-accredited Electronic Notarization Facility',
-      date: 'August 6, 2026',
-      href: 'https://unawa.asia/electronic-notarization/notarizeit-is-now-a-supreme-court-accredited-electronic-notarial-facility/',
-      image: { src: '/resources/accredited.jpg', width: 740, height: 416 },
-    },
-  ],
   cta: 'Read more',
+  // The cards themselves come from ../data/articles, which also drives the
+  // article pages, so a title or date cannot drift between the two.
 } as const;
 
 export const footer = {

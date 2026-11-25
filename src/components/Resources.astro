@@ -1,5 +1,6 @@
 ---
 import { resources } from '../data/content';
+import { articles, articleHref } from '../data/articles';
 ---
 
 <section class="resources section" id="resources">
@@ -8,9 +9,9 @@ import { resources } from '../data/content';
     <h2 class="display-2 resources__title">Tools and insights<br />for your team</h2>
 
     <ul class="resources__grid">
-      {resources.items.map((item) => (
+      {articles.map((item) => (
         <li class="rcard">
-          <a class="rcard__media" href={item.href} tabindex="-1" aria-hidden="true">
+          <a class="rcard__media" href={articleHref(item.slug)} tabindex="-1" aria-hidden="true">
             <img
               src={item.image.src}
               alt=""
@@ -22,7 +23,7 @@ import { resources } from '../data/content';
           <div class="rcard__body">
             <h3 class="rcard__title">{item.title}</h3>
             <p class="rcard__date">{item.date}</p>
-            <a class="btn btn--dark rcard__cta" href={item.href}>
+            <a class="btn btn--dark rcard__cta" href={articleHref(item.slug)}>
               {resources.cta}
               <span class="sr-only"> about {item.title}</span>
             </a>
