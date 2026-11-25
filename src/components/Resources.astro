@@ -1,6 +1,9 @@
 ---
 import { resources } from '../data/content';
 import { articles, articleHref } from '../data/articles';
+
+// The newest three. The full set of 135 lives at /resources/.
+const latest = articles.slice(0, 3);
 ---
 
 <section class="resources section" id="resources">
@@ -9,9 +12,9 @@ import { articles, articleHref } from '../data/articles';
     <h2 class="display-2 resources__title">Tools and insights<br />for your team</h2>
 
     <ul class="resources__grid">
-      {articles.map((item) => (
+      {latest.map((item) => (
         <li class="rcard">
-          <a class="rcard__media" href={articleHref(item.slug)} tabindex="-1" aria-hidden="true">
+          <a class="rcard__media" href={articleHref(item)} tabindex="-1" aria-hidden="true">
             <img
               src={item.image.src}
               alt=""
@@ -23,7 +26,7 @@ import { articles, articleHref } from '../data/articles';
           <div class="rcard__body">
             <h3 class="rcard__title">{item.title}</h3>
             <p class="rcard__date">{item.date}</p>
-            <a class="btn btn--dark rcard__cta" href={articleHref(item.slug)}>
+            <a class="btn btn--dark rcard__cta" href={articleHref(item)}>
               {resources.cta}
               <span class="sr-only"> about {item.title}</span>
             </a>
@@ -31,6 +34,10 @@ import { articles, articleHref } from '../data/articles';
         </li>
       ))}
     </ul>
+
+    <a class="btn btn--outline resources__all" href="/resources/">
+      All {articles.length} articles
+    </a>
   </div>
 </section>
 
@@ -38,6 +45,8 @@ import { articles, articleHref } from '../data/articles';
   .resources { background: var(--paper); }
 
   .resources__title { max-width: 16ch; }
+
+  .resources__all { margin-top: 2.5rem; }
 
   .resources__grid {
     display: grid;
