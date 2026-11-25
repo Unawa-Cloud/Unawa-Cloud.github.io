@@ -14,4 +14,19 @@ export default defineConfig({
   // Astro 7 defaults compressHTML to 'jsx', which strips the whitespace
   // between adjacent inline elements. Keep the v6 behaviour.
   compressHTML: true,
+
+  // URLs the old site served that have no page of their own here. On a static
+  // build these become small HTML redirect documents, which is what we want:
+  // the link keeps working and search engines are told where it went, without
+  // the same article being served at two addresses.
+  redirects: {
+    // Published twice on WordPress, as a post under its category and as a
+    // top-level page. The category URL matches every other article, so it wins.
+    // Both spellings: WordPress served the trailing-slash form, and the dev
+    // server matches keys literally even though the build emits a directory.
+    '/how-to-register-your-pawnshop-with-the-amlc-and-why-you-cant-afford-to-delay':
+      '/aml-compliance/how-to-register-your-pawnshop-with-the-amlc-and-why-you-cant-afford-to-delay-2/',
+    '/how-to-register-your-pawnshop-with-the-amlc-and-why-you-cant-afford-to-delay/':
+      '/aml-compliance/how-to-register-your-pawnshop-with-the-amlc-and-why-you-cant-afford-to-delay-2/',
+  },
 });

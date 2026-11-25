@@ -146,6 +146,23 @@ const summary = article.excerpt;
 
   .article__body :global(figure) { margin: 2rem 0; }
 
+  /* Twelve of these posts embed YouTube, Facebook or Instagram. The markup
+     carries width="100%" with a fixed pixel height, which overflows on a phone,
+     so the height is overridden here rather than by editing the content. */
+  .article__body :global(iframe) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 2rem 0;
+    border: 0;
+    border-radius: var(--radius);
+  }
+
+  .article__body :global(iframe[src*='youtube']) {
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+
   .article__body :global(img) {
     display: block;
     width: 100%;
