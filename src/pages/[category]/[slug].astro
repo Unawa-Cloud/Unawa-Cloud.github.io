@@ -17,7 +17,12 @@ const { article } = Astro.props;
 const summary = article.excerpt;
 ---
 
-<Base title={`${article.title} | UNAWA`} description={summary}>
+<Base
+  title={`${article.title} | UNAWA`}
+  description={summary}
+  type="article"
+  image={article.image}
+>
   <SiteNav />
 
   <main id="main-content" class="article">

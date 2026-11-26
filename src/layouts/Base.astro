@@ -1,15 +1,48 @@
 ---
 import '../styles/global.css';
 
+export interface ShareImage {
+  src: string;
+  width: number;
+  height: number;
+  alt?: string;
+}
+
 interface Props {
   title: string;
   description: string;
+  type?: 'website' | 'article';
+  image?: ShareImage;
 }
 
-const { title, description } = Astro.props;
+// The brand card every page falls back to. 1200x630 is the size Facebook,
+// LinkedIn, X and Slack all render, so one asset covers every surface.
+const DEFAULT_IMAGE: ShareImage = {
+  src: '/og/unawa.png',
+  width: 1200,
+  height: 630,
+  alt: 'UNAWA. Move your business forward.',
+};
+
+const MIME: Record<string, string> = {
+  png: 'image/png',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  webp: 'image/webp',
+};
+
+const { title, description, type = 'website', image = DEFAULT_IMAGE } = Astro.props;
+
+// Scrapers do not resolve relative paths, so og:image has to be absolute.
+const absolute = (path: string) =>
+  Astro.site ? new URL(path, Astro.site).href : path;
+
 const canonical = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).href
   : undefined;
+
+const shareImage = absolute(image.src);
+const shareType = MIME[image.src.split('.').pop()?.toLowerCase() ?? ''];
 ---
 
 <!doctype html>
@@ -25,10 +58,23 @@ const canonical = Astro.site
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="UNAWA" />
+    <meta property="og:locale" content="en_PH" />
+    <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:width" content={String(image.width)} />
+    <meta property="og:image:height" content={String(image.height)} />
+    {shareType && <meta property="og:image:type" content={shareType} />}
+    {image.alt && <meta property="og:image:alt" content={image.alt} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImage} />
+    {image.alt && <meta name="twitter:image:alt" content={image.alt} />}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
