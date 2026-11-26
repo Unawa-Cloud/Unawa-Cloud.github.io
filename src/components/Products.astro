@@ -17,7 +17,12 @@ import { products } from '../data/content';
         />
         <h2 class="display-2">{products.title}</h2>
         <p class="lede lede--on-dark products__body">{products.body}</p>
-        <a class="btn btn--light products__cta" href={products.cta.href}>
+        <a
+          class="btn btn--light products__cta"
+          href={products.cta.href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {products.cta.label}
         </a>
       </div>
@@ -72,7 +77,14 @@ import { products } from '../data/content';
             {item.name}
           </p>
           <p class="pcard__body">{item.body}</p>
-          <a class="btn btn--light pcard__cta" href={item.cta.href}>{item.cta.label}</a>
+          <a
+            class="btn btn--light pcard__cta"
+            href={item.cta.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {item.cta.label}
+          </a>
         </li>
       ))}
     </ul>
