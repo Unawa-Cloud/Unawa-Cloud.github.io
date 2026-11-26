@@ -48,14 +48,40 @@ export const trust = {
       ],
     },
     {
+      // Destinations match notarizeit.ph (content/siteContent.ts, partnerLogoGroups)
+      // so a mark means the same thing on both sites. The frame splits the KMC
+      // award into two marks where notarizeit.ph uses one combined SVG, so both
+      // halves point at the single announcement.
       label: 'Recognized by',
       kind: 'logos' as const,
       items: [
-        { name: 'KMC', logo: { src: '/logos/kmc.png', width: 63, height: 16 } },
-        { name: 'Startup Awards 2023', logo: { src: '/logos/startup-awards.png', width: 39, height: 22 } },
-        { name: 'PH Startup Week 2020', logo: { src: '/logos/ph-startup-week.png', width: 66, height: 29 } },
-        { name: 'Asian Development Bank', logo: { src: '/logos/adb.png', width: 35, height: 35 } },
-        { name: 'Licensing Executives Society Singapore', logo: { src: '/logos/les.png', width: 44, height: 34 } },
+        {
+          name: 'KMC',
+          href: 'https://www.linkedin.com/posts/kmc-solutions-inc_winners-kmc-startup-awards-2023-activity-7134065416896729088-D2PD',
+          logo: { src: '/logos/kmc.png', width: 63, height: 16 },
+        },
+        {
+          name: 'Startup Awards 2023',
+          href: 'https://www.linkedin.com/posts/kmc-solutions-inc_winners-kmc-startup-awards-2023-activity-7134065416896729088-D2PD',
+          logo: { src: '/logos/startup-awards.png', width: 39, height: 22 },
+        },
+        {
+          name: 'PH Startup Week 2020',
+          href: 'https://www.rappler.com/brandrap/finance-and-industries/highlights-philippine-startup-week-november-2020/',
+          logo: { src: '/logos/ph-startup-week.png', width: 66, height: 29 },
+        },
+        {
+          name: 'Asian Development Bank',
+          href: 'https://digital.adb.org/home/2024/8/20/digital-solutions-for-hard-hit-economic-sectors-helping-sectors-heavily-affected-by-covid-19-adapt-using-digital-technology',
+          logo: { src: '/logos/adb.png', width: 35, height: 35 },
+        },
+        {
+          // notarizeit.ph links this to the announcement on unawa.asia, which is
+          // this site, so it stays internal rather than leaving and coming back.
+          name: 'Licensing Executives Society Singapore',
+          href: '/unawa-news-announcements/filipino-regtech-startup-unawa-wins-1st-runner-up-in-regional-pitch-competition/',
+          logo: { src: '/logos/les.png', width: 44, height: 34 },
+        },
       ],
     },
     {
@@ -64,6 +90,7 @@ export const trust = {
       items: [
         {
           name: 'Investing in Women, an initiative of the Australian Government',
+          href: 'https://investinginwomen.asia/',
           logo: { src: '/logos/investing-in-women.png', width: 139, height: 28 },
         },
       ],

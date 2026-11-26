@@ -5,6 +5,10 @@ import { trust } from '../data/content';
  * Every mark here is real artwork exported from the frame at 3x. Each is sized
  * by its own 1x dimensions rather than forced to a common height, because the
  * frame places them at their natural sizes.
+ *
+ * The award and backer marks link out, to the same destinations notarizeit.ph
+ * uses. The accreditation seal does not: it names us, so there is nowhere for
+ * it to go.
  */
 ---
 
@@ -14,20 +18,40 @@ import { trust } from '../data/content';
       <div class="trust__group">
         <p class="trust__label">{group.label}</p>
         <ul class="trust__items">
-          {group.items.map((item) => (
-            <li class={group.kind === 'seal' ? 'trust__seal' : 'trust__logo'}>
-              <img
-                class={group.kind === 'seal' ? 'trust__sealmark' : 'trust__logoimg'}
-                src={item.logo.src}
-                alt={group.kind === 'seal' ? 'Supreme Court of the Philippines' : item.name}
-                width={item.logo.width}
-                height={item.logo.height}
-                style={group.kind === 'seal' ? undefined : `width:${item.logo.width}px`}
-                loading="lazy"
-              />
-              {group.kind === 'seal' && <span>{item.name}</span>}
-            </li>
-          ))}
+          {group.items.map((item) =>
+            group.kind === 'seal' ? (
+              <li class="trust__seal">
+                <img
+                  class="trust__sealmark"
+                  src={item.logo.src}
+                  alt="Supreme Court of the Philippines"
+                  width={item.logo.width}
+                  height={item.logo.height}
+                  loading="lazy"
+                />
+                <span>{item.name}</span>
+              </li>
+            ) : (
+              <li class="trust__logo">
+                <a
+                  class="trust__link"
+                  href={item.href}
+                  target={item.href.startsWith('http') ? '_blank' : undefined}
+                  rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                >
+                  <img
+                    class="trust__logoimg"
+                    src={item.logo.src}
+                    alt={item.name}
+                    width={item.logo.width}
+                    height={item.logo.height}
+                    style={`width:${item.logo.width}px`}
+                    loading="lazy"
+                  />
+                </a>
+              </li>
+            )
+          )}
         </ul>
       </div>
     ))}
@@ -74,6 +98,34 @@ import { trust } from '../data/content';
   }
 
   .trust__logo { display: flex; align-items: center; }
+
+  .trust__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: var(--radius-sm);
+    transition: opacity 0.15s ease;
+  }
+
+  /* Some marks are only 16px tall, well under the 24px minimum tap target. The
+     overlay grows the hit area to at least that in both directions without
+     taking up any space, so the row keeps the sizes the frame gives it. */
+  .trust__link::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: max(100%, 24px);
+    height: max(100%, 24px);
+  }
+
+  .trust__link:hover { opacity: 0.65; }
+
+  .trust__link:focus-visible {
+    outline: 2px solid var(--malaya);
+    outline-offset: 3px;
+  }
 
   /* Exported at 3x, so the intrinsic size is three times the display size. The
      width comes from the data as an inline style; CSS must not set `width:auto`
